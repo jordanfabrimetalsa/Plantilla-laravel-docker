@@ -7,38 +7,44 @@ use App\Http\Controllers\DetalleVentas;
 use App\Http\Controllers\Productos;
 use App\Http\Controllers\Usuarios;
 use App\Http\Controllers\Ventas;
+use App\Models\Categoria;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/crear-admin', [AuthController::class, 'crearAdmin'])->name('crear-admin');
+//USUARIO DE PRUEBA
+//Route::get('/crear-admin', [AuthController::class, 'crearAdmin'])->name('crear-admin');
 
 Route::get('/', [AuthController::class, 'index'])->name('login');
 Route::post('/logear', [AuthController::class, 'logear'])->name('logear');
 
-Route::middleware('auth')->group(function(){
+Route::middleware('auth')->middleware('auth')->group(function(){
     Route::get('/home', [DashboardController::class, 'index'])->name('home');
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    Route::prefix('ventas')->group(function(){
+    Route::prefix('ventas')->middleware('auth')->group(function(){
         Route::get('/nueva-venta', [Ventas::class, 'index'])->name('nueva-venta');
     });
 
-    Route::prefix('detalle')->group(function(){
+    Route::prefix('detalle')->middleware('auth')->group(function(){
         Route::get('/detalle-venta', [DetalleVentas::class, 'index'])->name('detalle-venta');
     });
 
-    Route::prefix('categoria')->group(function(){
+    Route::prefix('categoria')->middleware('auth')->group(function(){
         Route::get('/', [Categorias::class, 'index'])->name('categoria');
+        Route::get('/create', [Categorias::class, 'create'])->name('categoria.create');
+        Route::post('/store', [Categorias::class, 'store'])->name('categoria.store');
+        Route::get('/show/{id}', [Categorias::class, 'show'])->name('categoria.show');
+        Route::delete('/destroy/{id}', [Categorias::class, 'destroy'])->name('categoria.destroy');
     });
 
-    Route::prefix('producto')->group(function(){
+    Route::prefix('producto')->middleware('auth')->group(function(){
         Route::get('/', [Productos::class, 'index'])->name('producto');
     });
 
-    Route::prefix('cliente')->group(function(){
+    Route::prefix('cliente')->middleware('auth')->group(function(){
         Route::get('/', [Clientes::class, 'index'])->name('cliente');
     });
 
-    Route::prefix('usuario')->group(function(){
+    Route::prefix('usuario')->middleware('auth')->group(function(){
         Route::get('/', [Usuarios::class, 'index'])->name('usuario');
     });
 

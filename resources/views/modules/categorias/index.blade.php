@@ -1,48 +1,53 @@
 @extends('layouts.main')
 
-<main id="main" class="main">
-    <div class="pagetitle">
-      <h1>Detalle de Ventas</h1>
-    </div>
+@section('titulo', $titulo)
 
-    <section class="section">
-        <div class="row">
-          <div class="col-lg-12">
-
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">Administrar las Categorias</h5>
-                <p>Add lightweight datatables to your project with using the <a href="https://github.com/fiduswriter/Simple-DataTables" target="_blank">Simple DataTables</a> library. Just add <code>.datatable</code> class name to any table you wish to conver to a datatable. Check for <a href="https://fiduswriter.github.io/simple-datatables/demos/" target="_blank">more examples</a>.</p>
-
-                <!-- Table with stripped rows -->
-                <table class="table datatable">
-                  <thead>
-                    <tr>
-                      <th>
-                        <b>N</b>ame
-                      </th>
-                      <th>Ext.</th>
-                      <th>City</th>
-                      <th data-type="date" data-format="YYYY/DD/MM">Start Date</th>
-                      <th>Completion</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Emerald Warner</td>
-                      <td>6205</td>
-                      <td>Chiavari</td>
-                      <td>2002/08/04</td>
-                      <td>58%</td>
-                    </tr>
-                  </tbody>
-                </table>
-                <!-- End Table with stripped rows -->
-
-              </div>
-            </div>
-
-          </div>
+@section('content')
+    <main id="main" class="main">
+        <div class="pagetitle">
+            <h1>Detalle de Ventas</h1>
         </div>
-      </section>
-  </main>
+
+        <section class="section">
+            <div class="row">
+                <div class="col-lg-12">
+
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Administrar las Categorias</h5>
+                            <p>Administrar las categorias de nuestro sistema.</p>
+
+                            <!-- Table with stripped rows -->
+                            <a href="{{ route('categoria.create') }}" class="btn btn-primary">Agregar nueva categoria</a>
+                            <hr>
+                            <table class="table datatable">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre Categoria</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($items as $item)
+                                        <tr>
+                                            <td>{{ $item->nombre }}</td>
+                                            <td>
+                                                <a href="" class="btn btn-warning"><i
+                                                        class="fa-solid fa-pen-to-square"></i></a>
+                                                <a href="{{ route('categoria.show', $item->id) }}" class="btn btn-danger"><i
+                                                        class="fa-solid fa-trash-can"></i></a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+@endsection
