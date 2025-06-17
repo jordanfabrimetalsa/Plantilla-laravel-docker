@@ -33,6 +33,8 @@ Route::middleware('auth')->middleware('auth')->group(function(){
         Route::get('/create', [Categorias::class, 'create'])->name('categoria.create');
         Route::post('/store', [Categorias::class, 'store'])->name('categoria.store');
         Route::get('/show/{id}', [Categorias::class, 'show'])->name('categoria.show');
+        Route::get('/edit/{id}', [Categorias::class, 'edit'])->name('categoria.edit');
+        Route::put('/update/{id}', [Categorias::class, 'update'])->name('categoria.update');
         Route::delete('/destroy/{id}', [Categorias::class, 'destroy'])->name('categoria.destroy');
     });
 

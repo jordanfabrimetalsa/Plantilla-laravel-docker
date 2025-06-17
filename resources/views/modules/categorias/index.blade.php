@@ -32,7 +32,7 @@
                                         <tr>
                                             <td>{{ $item->nombre }}</td>
                                             <td>
-                                                <a href="" class="btn btn-warning"><i
+                                                <a href="{{ route('categoria.edit', $item->id) }}" class="btn btn-warning"><i
                                                         class="fa-solid fa-pen-to-square"></i></a>
                                                 <a href="{{ route('categoria.show', $item->id) }}" class="btn btn-danger"><i
                                                         class="fa-solid fa-trash-can"></i></a>

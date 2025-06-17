@@ -15,7 +15,6 @@ class Categorias extends Controller
         return view('modules.categorias.index', compact('titulo', 'items'));
     }
 
-
     public function create()
     {
         $titulo = 'Crear Categoria';
@@ -31,7 +30,6 @@ class Categorias extends Controller
         return to_route('categoria');
     }
 
-
     public function show(string $id)
     {
         $titulo = 'Eliminar Categoria';
@@ -42,20 +40,19 @@ class Categorias extends Controller
 
     public function edit(string $id)
     {
-        //
+        $item = Categoria::find($id);
+        $titulo = 'Editar Categoria';
+        return view('modules.categorias.edit', compact('item', 'titulo'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        //
+        $item = Categoria::find($id);
+        $item->nombre = $request->nombre;
+        $item->update();
+        return to_route('categoria');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         $item = Categoria::find($id);
