@@ -40,6 +40,12 @@ Route::middleware('auth')->middleware('auth')->group(function(){
 
     Route::prefix('producto')->middleware('auth')->group(function(){
         Route::get('/', [Productos::class, 'index'])->name('producto');
+        Route::get('/create', [Productos::class, 'create'])->name('producto.create');
+        Route::post('/store', [Productos::class, 'store'])->name('producto.store');
+        Route::get('/show/{id}', [Productos::class, 'show'])->name('producto.show');
+        Route::get('/edit/{id}', [Productos::class, 'edit'])->name('producto.edit');
+        Route::put('/update/{id}', [Productos::class, 'update'])->name('producto.update');
+        Route::delete('/destroy/{id}', [Productos::class, 'destroy'])->name('producto.destroy');
     });
 
     Route::prefix('cliente')->middleware('auth')->group(function(){
