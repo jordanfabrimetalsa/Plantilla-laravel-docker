@@ -41,14 +41,16 @@ class Productos extends Controller
     {
         $titulo = 'Eliminar Producto';
         $item = Producto::find($id);
-        return view('modules.productos.show', compact('item', 'titulo'));
+        $categorias = Categoria::all();
+        return view('modules.productos.show', compact('item', 'titulo', 'categorias'));
     }
 
     public function edit(string $id)
     {
         $item = Producto::find($id);
-        $titulo = 'Editar Producto';
-        return view('modules.productos.edit', compact('item', 'titulo'));
+        $titulo = 'Editar Producto';    
+        $categorias = Categoria::all();
+        return view('modules.productos.edit', compact('item', 'titulo', 'categorias'));
     }
 
     public function update(Request $request, string $id)
