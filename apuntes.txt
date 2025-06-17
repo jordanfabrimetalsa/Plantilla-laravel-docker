@@ -1,0 +1,17 @@
+Migrar DB
+php artisan migrate 
+
+Nueva Migración
+php artisan make:migration create_nombre_table
+
+Crear controlador 
+php artisan make:controller AuthController
+
+Refrescar cambios en Migración
+php artisan migrate:refresh
+
+funcionamiento
+docker-compose build
+
+docker-compose exec laravel bash 
+docker-compose run --rm laravel bash
