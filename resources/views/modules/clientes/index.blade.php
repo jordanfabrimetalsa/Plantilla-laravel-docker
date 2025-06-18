@@ -8,9 +8,11 @@
       <h1>Clientes</h1>
     </div>
 
+    <a href="{{ route('cliente.create') }}" class="btn btn-primary">Agregar nuevo cliente</a>
+    <hr>
     <section class="section dashboard">
       <div class="row">
-          <table class="table">
+          <table class="table datatable">
             <thead>
                 <tr>
                     <th>ID</th>

@@ -15,8 +15,7 @@
               <div class="card-body">
                 <h5 class="card-title">Administrar los Productos</h5>
                 <p>Administrar los productos de nuestro sistema.</p>
-
-                <!-- Table with stripped rows -->
+                
                 <a href="{{ route('producto.create') }}" class="btn btn-primary">Agregar nuevo producto</a>
                 <hr>
                 <table class="table datatable">

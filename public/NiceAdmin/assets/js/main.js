@@ -294,4 +294,31 @@
     }, 200);
   }
 
+  const datatable = select('.datatable', true);
+  datatable.forEach(datatable => {
+    new DataTable(datatable, {
+      pageLength: [5, 10, 25, 50, ["All", -1]],
+      lengthMenu: [5, 10, 25, 50, ["All", -1]],
+      columns: [
+        { data: 'id' },
+        { data: 'nombre' },
+        { data: 'apellido' },
+        { data: 'email' },
+        { data: 'telefono' },
+        { data: 'direccion' },
+        { data: 'activo' },
+        { data: 'rol' }
+      ],
+      columnDefs: [
+        { targets: [0], visible: false },
+      ],
+      lengthChange: false,
+      searching: true,
+      ordering: true,
+      info: true,
+      autoWidth: false,
+      responsive: true,
+    });
+  });
+
 })();

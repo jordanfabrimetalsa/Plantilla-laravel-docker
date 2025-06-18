@@ -24,6 +24,17 @@ class Clientes extends Controller
     public function store(Request $request)
     {
         $item = new Cliente();
+
+        $request->validate([
+            'nombre' => 'required',
+            'apellido' => 'required',
+            'email' => 'required',
+            'telefono' => 'required',
+            'direccion' => 'required',
+            'activo' => 'required',
+            'rol' => 'required',
+        ]);
+
         $item->user_id = Auth::user()->id;
         $item->nombre = $request->nombre;
         $item->apellido = $request->apellido;
@@ -53,6 +64,17 @@ class Clientes extends Controller
     public function update(Request $request, string $id)
     {
         $item = Cliente::find($id);
+
+        $request->validate([
+            'nombre' => 'required',
+            'apellido' => 'required',
+            'email' => 'required',
+            'telefono' => 'required',
+            'direccion' => 'required',
+            'activo' => 'required',
+            'rol' => 'required',
+        ]);
+
         $item->nombre = $request->nombre;
         $item->apellido = $request->apellido;
         $item->email = $request->email;

@@ -17,6 +17,10 @@ return new class extends Migration
             $table->string('apellido');
             $table->string('nombre');
             $table->string('email');
+            $table->string('telefono');
+            $table->string('direccion');
+            $table->boolean('activo')->default(true);
+            $table->string('rol');
             $table->timestamps();
         });
     }
