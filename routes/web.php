@@ -10,14 +10,14 @@ use App\Http\Controllers\Ventas;
 use App\Models\Categoria;
 use Illuminate\Support\Facades\Route;
 
-//USUARIO DE PRUEBA
-//Route::get('/crear-admin', [AuthController::class, 'crearAdmin'])->name('crear-admin');
+Route::get('/crear-admin', [AuthController::class, 'crearAdmin'])->name('crear-admin');
 
 Route::get('/', [AuthController::class, 'index'])->name('login');
 Route::post('/logear', [AuthController::class, 'logear'])->name('logear');
 
-Route::middleware('auth')->middleware('auth')->group(function(){
+Route::middleware('auth')->group(function(){
     Route::get('/home', [DashboardController::class, 'index'])->name('home');
+
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::prefix('ventas')->middleware('auth')->group(function(){
@@ -50,12 +50,17 @@ Route::middleware('auth')->middleware('auth')->group(function(){
 
     Route::prefix('cliente')->middleware('auth')->group(function(){
         Route::get('/', [Clientes::class, 'index'])->name('cliente');
+        Route::get('/create', [Clientes::class, 'create'])->name('cliente.create');
+        Route::post('/store', [Clientes::class, 'store'])->name('cliente.store');
+        Route::get('/show/{id}', [Clientes::class, 'show'])->name('cliente.show');
+        Route::get('/edit/{id}', [Clientes::class, 'edit'])->name('cliente.edit');
+        Route::put('/update/{id}', [Clientes::class, 'update'])->name('cliente.update');
+        Route::delete('/destroy/{id}', [Clientes::class, 'destroy'])->name('cliente.destroy');
     });
 
     Route::prefix('usuario')->middleware('auth')->group(function(){
         Route::get('/', [Usuarios::class, 'index'])->name('usuario');
     });
-
 });
 
 

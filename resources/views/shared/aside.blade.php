@@ -8,7 +8,7 @@
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
-      </li><!-- End Dashboard Nav -->
+      </li>
 
       <li class="nav-heading">Pages</li>
 
@@ -17,42 +17,43 @@
           <i class="bi bi-card-list"></i>
           <span>Vender Producto</span>
         </a>
-      </li><!-- End Register Page Nav -->
+      </li>
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="{{ route('detalle-venta') }}">
           <i class="bi bi-box-arrow-in-right"></i>
           <span>Consultar Ventas</span>
         </a>
-      </li><!-- End Login Page Nav -->
+      </li>
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="{{ route('categoria') }}">
           <i class="bi bi-dash-circle"></i>
           <span>Categorias</span>
         </a>
-      </li><!-- End Error 404 Page Nav -->
+      </li>
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="{{ route('producto') }}">
           <i class="bi bi-file-earmark"></i>
           <span>Productos</span>
         </a>
-      </li><!-- End Blank Page Nav -->
+      </li>
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="{{ route('cliente') }}">
           <i class="bi bi-file-earmark"></i>
           <span>Clientes</span>
         </a>
-      </li><!-- End Blank Page Nav -->
+      </li>
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="{{ route('usuario') }}">
           <i class="bi bi-file-earmark"></i>
           <span>Usuario</span>
         </a>
-      </li><!-- End Blank Page Nav -->
+      </li>
+
       <li class="nav-item">
         <a class="nav-link collapsed" href="{{ route('logout') }}">
             <i class="bi bi-box-arrow-right"></i>
@@ -61,4 +62,4 @@
       </li>
     </ul>
 
-  </aside><!-- End Sidebar-->
+  </aside>
