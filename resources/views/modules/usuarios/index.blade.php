@@ -65,7 +65,10 @@
               type : "GET",
               url : "usuario/cambiar-estado/" + usuario_id + "/" + estado,
               success : function(response){
-                recargar_tbody();
+                if(response == 1){
+                  alert('Estado cambiado correctamente');
+                  recargar_tbody();
+                }
               },
               error : function(error){
                 console.log(error);
@@ -74,7 +77,7 @@
         }
 
         $(document).ready(function(){
-            $('form-check-input').on('change', function(){
+            $('.form-check-input').on('change', function(){
                 let id = $(this).attr('id');
                 let estado = $(this).is(':checked') ? 1 : 0;
                 cambiar_estado(id, estado);
