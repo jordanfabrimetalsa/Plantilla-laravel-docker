@@ -63,7 +63,7 @@
         function cambiar_estado(usuario_id, estado){
             $.ajax({
               type : "GET",
-              url : "{{ route('usuario.estado', [':id', ':estado']) }}".replace(':id', usuario_id).replace(':estado', estado),
+              url : "usuario/cambiar-estado/" + usuario_id + "/" + estado,
               success : function(response){
                 recargar_tbody();
               },
