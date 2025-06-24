@@ -294,30 +294,31 @@
     }, 200);
   }
 
-  const datatable = select('.datatable', true);
-  datatable.forEach(datatable => {
-    new DataTable(datatable, {
+  const datatables = select('.datatable', true);
+  datatables.forEach(datatable => {
+    new simpleDataTables.DataTable(datatable, {
       pageLength: [5, 10, 25, 50, ["All", -1]],
-      lengthMenu: [5, 10, 25, 50, ["All", -1]],
+      labels: {
+        placeholder: 'Buscar...',
+        perPage: 'Mostrar {select} registros por página',
+        noRows: 'No se encontraron registros',
+        info: 'Mostrando {start} a {end} de {rows} registros',
+      },
       columns: [
-        { data: 'id' },
-        { data: 'nombre' },
-        { data: 'apellido' },
-        { data: 'email' },
-        { data: 'telefono' },
-        { data: 'direccion' },
-        { data: 'activo' },
-        { data: 'rol' }
+        { 
+          select: 2,
+          sortSequence: ['desc', 'asc']
+        },
+        { 
+          select: 3,
+          sortSequence: ['desc']
+        },
+        { 
+          select: 4,
+          cellClass: "green",
+          headerClass: "red"
+        }
       ],
-      columnDefs: [
-        { targets: [0], visible: false },
-      ],
-      lengthChange: false,
-      searching: true,
-      ordering: true,
-      info: true,
-      autoWidth: false,
-      responsive: true,
     });
   });
 

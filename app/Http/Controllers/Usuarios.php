@@ -3,36 +3,38 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class Usuarios extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $item = User::all();
+        return view('modules.usuarios.index', compact('item'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $titulo = 'Agregar Usuario';
+        return view('modules.usuarios.create', compact('titulo'));
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
-    }
+        $request->validate([
+            'name' => 'required',
+            'apellido' => 'required',
+            'password' => 'required',
+            'activo' => 'required',
+            'rol' => 'required',
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
+        $request->password = bcrypt($request->password);
+        $request->rol = $request->rol == 'admin' ? 'admin' : 'user';
+        $request->activo = $request->activo == '1' ? true : false;
+        $request->user_id = Auth::user()->id;
+        $request->save();
+        return redirect()->route('usuario');
+    }
     public function show(string $id)
     {
         //

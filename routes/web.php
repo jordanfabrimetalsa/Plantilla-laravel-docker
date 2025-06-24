@@ -56,10 +56,16 @@ Route::middleware('auth')->group(function(){
         Route::get('/edit/{id}', [Clientes::class, 'edit'])->name('cliente.edit');
         Route::put('/update/{id}', [Clientes::class, 'update'])->name('cliente.update');
         Route::delete('/destroy/{id}', [Clientes::class, 'destroy'])->name('cliente.destroy');
-    });
+        Route::put('/change-activo/{id}', [Clientes::class, 'changeActivo'])->name('cliente.changeActivo');
+    }); 
 
     Route::prefix('usuario')->middleware('auth')->group(function(){
         Route::get('/', [Usuarios::class, 'index'])->name('usuario');
+        Route::get('/create', [Usuarios::class, 'create'])->name('usuario.create');
+        Route::post('/store', [Usuarios::class, 'store'])->name('usuario.store');
+        Route::get('/show/{id}', [Usuarios::class, 'show'])->name('usuario.show');
+        Route::get('/edit/{id}', [Usuarios::class, 'edit'])->name('usuario.edit');
+        Route::put('/update/{id}', [Usuarios::class, 'update'])->name('usuario.update');
     });
 });
 

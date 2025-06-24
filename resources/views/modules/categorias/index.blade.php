@@ -20,7 +20,7 @@
                             <!-- Table with stripped rows -->
                             <a href="{{ route('categoria.create') }}" class="btn btn-primary">Agregar nueva categoria</a>
                             <hr>
-                            <table class="table datatable">
+                            <table id="categoriasTable" class="table table-bordered datatable">
                                 <thead>
                                     <tr>
                                         <th>Nombre Categoria</th>
@@ -51,3 +51,25 @@
         </section>
     </main>
 @endsection
+
+@push('scripts')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    
+    <script>
+        $(function(){
+            $('#categoriasTable').DataTable({
+                responsive: true,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json',
+                    decimal: ',',
+                    thousands: '.',
+                    search: 'Buscar:',
+                    searchPlaceholder: 'Buscar categorias...'
+                }
+            });
+        })
+    </script>
+@endpush
+

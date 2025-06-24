@@ -33,20 +33,40 @@
                                 <label for="">Direccion</label>
                                 <input type="text" class="form-control" required name="direccion" id="direccion">
 
-                                <label for="">Activo</label>
-                                <input type="number" class="form-control" required name="activo" id="activo">
 
                                 <label for="">Rol</label>
                                 <input type="text" class="form-control" required name="rol" id="rol">
+
+                                <div class="form-check form-switch mt-2">
+                                    <input type="hidden" name="activo" id="activo" value="1">
+                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
+                                    <label class="form-check-label" id="text-activo" for="flexSwitchCheckChecked">Activo</label>
+                                </div>
 
                                 <button class="btn btn-primary mt-3">Guardar</button>
                                 <a href="{{ route('cliente') }}" class="btn btn-danger mt-3">Cancelar</a>
                             </form>
                         </div>
-                    </div>
-
+                    </div>  
                 </div>
             </div>
         </section>
     </main>
 @endsection
+
+@push('scripts')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(function() {
+        $('#flexSwitchCheckChecked').on('change', function() {
+            if ($(this).is(':checked')) {
+                $('#activo').val('1');
+                $('#text-activo').text('Activo');
+            } else {
+                $('#activo').val('0');
+                $('#text-activo').text('Inactivo');
+            }
+        }).trigger('change');
+    });
+</script>
+@endpush
