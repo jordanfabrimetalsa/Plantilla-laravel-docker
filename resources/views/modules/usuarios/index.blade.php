@@ -29,36 +29,8 @@
                             <th>Acciones</th>
                           </tr>
                       </thead>
-                      <tbody>
-                        @foreach ($item as $items)
-                            <tr>
-                                <td>{{ $items->name }}</td>
-                                <td>********</td>
-                                @if ($items->activo)
-                                    <td><div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
-                                        <label class="form-check-label" for="flexSwitchCheckChecked">Activo</label>
-                                    </div></td>
-                                @else
-                                    <td><div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                                        <label class="form-check-label" for="flexSwitchCheckDefault">Inactivo</label>
-                                    </div></td>
-                                @endif
-
-                                <td>
-                                    @if ($items->rol == 'admin')
-                                        <span class="badge bg-success">Admin</span>
-                                    @else
-                                        <span class="badge bg-danger">User</span>
-                                    @endif
-                                </td>
-                                <td>
-                                    <a href="{{ route('usuario.edit', $items->id) }}" class="btn btn-warning"><i
-                                            class="fa-solid fa-pen-to-square"></i></a>
-                                </td>
-                            </tr>
-                        @endforeach
+                      <tbody id="tbody-usuarios">
+                        @include('modules.usuarios.tbody')
                       </tbody>
                 </table>
               </div>
@@ -74,6 +46,42 @@
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
     
+    <script>
+        function recargar_tbody(){
+            $.ajax({
+              type : "GET",
+              url : "{{ route('usuario.tbody') }}",
+              success : function(response){
+                $('#tbody-usuarios').html(response);
+              },
+              error : function(error){
+                console.log(error);
+              }
+            });
+        }
+
+        function cambiar_estado(usuario_id, estado){
+            $.ajax({
+              type : "GET",
+              url : "{{ route('usuario.estado', [':id', ':estado']) }}".replace(':id', usuario_id).replace(':estado', estado),
+              success : function(response){
+                recargar_tbody();
+              },
+              error : function(error){
+                console.log(error);
+              }
+            });
+        }
+
+        $(document).ready(function(){
+            $('form-check-input').on('change', function(){
+                let id = $(this).attr('id');
+                let estado = $(this).is(':checked') ? 1 : 0;
+                cambiar_estado(id, estado);
+            });
+        });
+    </script>
+
     <script>
         $(function(){
             $('#usuariosTable').DataTable({

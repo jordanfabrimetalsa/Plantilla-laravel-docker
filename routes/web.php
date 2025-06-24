@@ -66,6 +66,8 @@ Route::middleware('auth')->group(function(){
         Route::get('/show/{id}', [Usuarios::class, 'show'])->name('usuario.show');
         Route::get('/edit/{id}', [Usuarios::class, 'edit'])->name('usuario.edit');
         Route::put('/update/{id}', [Usuarios::class, 'update'])->name('usuario.update');
+        Route::get('/tbody', [Usuarios::class, 'tbody'])->name('usuario.tbody');
+        Route::get('/cambiar-estado/{id}/{estado}', [Usuarios::class, 'estado'])->name('usuario.estado');
     });
 });
 
