@@ -23,11 +23,15 @@ class Categorias extends Controller
 
     public function store(Request $request)
     {
-        $item = new Categoria();
-        $item->user_id = Auth::user()->id;
-        $item->nombre = $request->nombre;
-        $item->save();
-        return to_route('categoria');
+        try {
+            $item = new Categoria();
+            $item->user_id = Auth::user()->id;
+            $item->nombre = $request->nombre;
+            $item->save();
+            return to_route('categoria')->with('success', 'Categoria creada exitosamente');
+        } catch (\Exception $e) {
+            return to_route('categoria')->with('error', 'Error al crear la categoria');
+        }
     }
 
     public function show(string $id)
@@ -36,7 +40,6 @@ class Categorias extends Controller
         $item = Categoria::find($id);
         return view('modules.categorias.show', compact('item', 'titulo'));
     }
-
 
     public function edit(string $id)
     {
@@ -47,16 +50,24 @@ class Categorias extends Controller
 
     public function update(Request $request, string $id)
     {
-        $item = Categoria::find($id);
-        $item->nombre = $request->nombre;
-        $item->update();
-        return to_route('categoria');
+        try {
+            $item = Categoria::find($id);
+            $item->nombre = $request->nombre;
+            $item->update();
+            return to_route('categoria')->with('success', 'Categoria actualizada exitosamente');
+        } catch (\Exception $e) {
+            return to_route('categoria')->with('error', 'Error al actualizar la categoria');
+        }
     }
 
     public function destroy(string $id)
     {
-        $item = Categoria::find($id);
-        $item->delete();
-        return to_route('categoria');
+        try {
+            $item = Categoria::find($id);
+            $item->delete();
+            return to_route('categoria')->with('success', 'Categoria eliminada exitosamente');
+        } catch (\Exception $e) {
+            return to_route('categoria')->with('error', 'Error al eliminar la categoria');
+        }
     }
 }

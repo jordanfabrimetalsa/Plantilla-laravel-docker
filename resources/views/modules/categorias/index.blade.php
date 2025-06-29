@@ -17,6 +17,18 @@
                             <h5 class="card-title">Administrar las Categorias</h5>
                             <p>Administrar las categorias de nuestro sistema.</p>
 
+                            @if(session('success'))
+                                <div class="alert alert-success">
+                                    {{ session('success') }}
+                                </div>
+                            @endif
+
+                            @if(session('error'))
+                                <div class="alert alert-danger">
+                                    {{ session('error') }}
+                                </div>
+                            @endif
+
                             <!-- Table with stripped rows -->
                             <a href="{{ route('categoria.create') }}" class="btn btn-primary">Agregar nueva categoria</a>
                             <hr>
@@ -56,7 +68,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-    
+
     <script>
         $(function(){
             $('#categoriasTable').DataTable({
