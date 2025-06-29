@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Producto;
 use App\Models\Categoria;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,15 +27,20 @@ class Productos extends Controller
 
     public function store(Request $request)
     {
-        $item = new Producto();
-        $item->user_id = Auth::user()->id;
-        $item->nombre = $request->nombre;
-        $item->descripcion = $request->descripcion;
-        $item->precio = $request->precio;
-        $item->cantidad = $request->cantidad;
-        $item->categoria_id = $request->categoria_id;
-        $item->save();
-        return to_route('producto');
+        try{
+            $item = new Producto();
+            $item->user_id = Auth::user()->id;
+            $item->nombre = $request->nombre;
+            $item->descripcion = $request->descripcion;
+            $item->precio = $request->precio;
+            $item->cantidad = $request->cantidad;
+            $item->categoria_id = $request->categoria_id;
+            $item->save();
+            return to_route('producto')->with('success', 'Ha sido creado con exito.');
+        }catch(Exception $e){
+            return to_route('producto')->with('error', 'No ha podido ser llevado a cabo.');
+        }
+
     }
 
     public function show(string $id)
@@ -47,28 +53,37 @@ class Productos extends Controller
 
     public function edit(string $id)
     {
-        $item = Producto::find($id);
-        $titulo = 'Editar Producto';    
+        $item = Producto::with('categoria')->find($id);
+        $titulo = 'Editar Producto';
         $categorias = Categoria::all();
         return view('modules.productos.edit', compact('item', 'titulo', 'categorias'));
     }
 
     public function update(Request $request, string $id)
     {
-        $item = Producto::find($id);
-        $item->nombre = $request->nombre;
-        $item->descripcion = $request->descripcion;
-        $item->precio = $request->precio;
-        $item->cantidad = $request->cantidad;
-        $item->categoria_id = $request->categoria_id;
-        $item->update();
-        return to_route('producto');
-    }   
+        try{
+            $item = Producto::find($id);
+            $item->nombre = $request->nombre;
+            $item->descripcion = $request->descripcion;
+            $item->precio = $request->precio;
+            $item->cantidad = $request->cantidad;
+            $item->categoria_id = $request->categoria_id;
+            $item->update();
+            return to_route('producto')->with('success', 'Ha podido ser llevado a cabo con exito!');
+        }catch(Exception $e){
+            return to_route('producto')->with('error', 'No ha podido ser llevado a cabo');
+        }
+
+    }
 
     public function destroy(string $id)
     {
-        $item = Producto::find($id);
-        $item->delete();
-        return to_route('producto');
+        try{
+            $item = Producto::find($id);
+            $item->delete();
+            return to_route('producto')->with('success', 'Se ha eliminado exitosamente.');
+        }catch(Exception $e){
+            return to_route('error')->with('error', 'No se ha podido eliminar correctamente');
+        }
     }
 }

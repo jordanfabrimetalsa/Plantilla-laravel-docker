@@ -14,15 +14,34 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Agregar Nueva Categoria</h5>
+                            <h5 class="card-title">Editar Producto</h5>
 
-                            <form action="{{ route('categoria.store') }}" method="POST">
+                            <form action="{{ route('producto.update',  $item->id)  }}" method="POST">
                                 @csrf
-                                <label for="">Nombre de la Categoria</label>
-                                <input type="text" class="form-control" required name="nombre" id="nombre">
+                                @method('PUT')
 
-                                <button class="btn btn-primary mt-3">Guardar</button>
-                                <a href="{{ route('categoria') }}" class="btn btn-danger mt-3">Cancelar</a>
+                                <label for="">Nombre de la Producto</label>
+                                <input type="text" class="form-control" required name="nombre" id="nombre" value="{{ $item->nombre }}">
+
+                                <label for="">Descripción</label>
+                                <input type="text" class="form-control" required name="descripcion" id="descripcion" value="{{ $item->descripcion}}">
+
+                                <label for="">Precio</label>
+                                <input type="number" class="form-control" required name="precio" id="precio" value="{{ $item->precio }}">
+
+                                <label for="">Cantidad</label>
+                                <input type="number" class="form-control" required name="cantidad" id="cantidad" value="{{ $item->cantidad }}">
+
+                                <label for="">Categoria</label>
+                                <select name="categoria_id" id="categoria_id" class="form-control">
+                                    <option value="{{ $item->categoria_id }}">{{ $item->categoria->nombre }}</option>
+                                    @foreach ($categorias as $categoria)
+                                        <option value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
+                                    @endforeach
+                                </select>
+
+                                <button class="btn btn-primary mt-3">Editar</button>
+                                <a href="{{ route('producto') }}" class="btn btn-danger mt-3">Cancelar</a>
                             </form>
                         </div>
                     </div>
