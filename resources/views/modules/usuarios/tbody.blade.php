@@ -1,9 +1,13 @@
 @foreach ($item as $items)
     <tr>
         <td>{{ $items->name }}</td>
-        <td><a class="btn btn-secondary" href="{{ route('usuario.show', $items->id) }}"><i class="fa-solid fa-user-lock"></i></a></td>
+        <td>
+            <a href="#" onclick="agregar_id_usuario({{ $items->id }})" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#cambiar_password">
+                <i class="fa-solid fa-user-lock"></i>
+            </a>
+        </td>
         <td><div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" id="{{ $items->id }}" 
+            <input  class="form-check-input" type="checkbox" id="{{ $items->id }}" 
             {{ $items->activo ? 'checked' : '' }}>
         </div></td>
 
@@ -20,3 +24,4 @@
         </td>
     </tr>
 @endforeach
+@include('modules.usuarios.modal_cambiar_password')

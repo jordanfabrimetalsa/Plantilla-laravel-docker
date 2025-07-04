@@ -22,29 +22,6 @@
                     <i class="fa-solid fa-plus me-1"></i> Nuevo Usuario
                 </a>
 
-                <!-- Botón para abrir el modal -->
-                <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    <i class="fa-solid fa-play me-1"></i> Mostrar Modal
-                </button>
-
-                <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Título del Modal</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                      </div>
-                      <div class="modal-body">
-                        Contenido del modal va aquí...
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="button" class="btn btn-primary">Guardar cambios</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
 
                 @if (session('success'))
                     <div class="alert alert-success mb-3 mt-3">
@@ -75,7 +52,6 @@
     </section>
 </main>
 @endsection
-
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>   
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -95,6 +71,34 @@
                     searchPlaceholder: 'Buscar usuarios...'
                 }
             });
+
+            function cambio_password(event){
+                event.preventDefault();
+                let id = $('#id_usuario').val();
+                let password = $('#password').val();
+
+                if (!password) {
+                    alert('Por favor ingrese una contraseña');
+                    return;
+                }
+                
+                $.ajax({
+                  type: "GET",
+                  url: "usuario/cambiar-password/" + id + "/" + password,
+                  success: function(response) {
+                    if(response == 1){
+                      alert('Contraseña cambiada correctamente');
+                      $('#frmPassword')[0].reset();
+                    }
+                  },
+                  error: function(xhr) {  
+                    console.error('Error:', xhr.responseText);
+                    alert('Error al cambiar la contraseña');
+                  }
+                })
+
+                return;
+            }
         });
 
         function recargar_tbody() {
@@ -133,5 +137,9 @@
                 cambiar_estado(id, estado);
             });
         });
+
+        function agregar_id_usuario(id){
+            $('#id_usuario').val(id);
+        }
     </script>
 @endpush
