@@ -9,7 +9,7 @@
                         </div>
                         <div class="modal-body">
                                 <div class="mb-3">
-                                    <input type="hidden" id="id_usuario" name="id_usuario">
+                                    <input type="text" id="id_usuario" name="id_usuario" hidden>
                                     <label for="password" class="form-label">Contraseña Nueva</label>
                                     <input type="password" class="form-control" id="password" name="password">
                                 </div>
