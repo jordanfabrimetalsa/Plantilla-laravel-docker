@@ -35,7 +35,7 @@ class Usuarios extends Controller
         $request->activo = $request->activo == '1' ? true : false;
         $request->user_id = Auth::user()->id;
         User::create($request->all());
-        return redirect()->route('usuario');
+        return redirect()->route('usuario')->with('success', 'Se ha creado exitosamente.');
     }
     public function show(string $id)
     {
