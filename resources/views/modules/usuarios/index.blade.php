@@ -71,9 +71,10 @@
                     searchPlaceholder: 'Buscar usuarios...'
                 }
             });
+        });
 
-            function cambio_password(event){
-                event.preventDefault();
+        function cambio_password(){
+                console.log(2);
                 let id = $('#id_usuario').val();
                 let password = $('#password').val();
 
@@ -88,7 +89,14 @@
                   success: function(response) {
                     if(response == 1){
                       alert('Contraseña cambiada correctamente');
-                      $('#frmPassword')[0].reset();
+                      // Cerrar el modal
+                      $('#cambiar_password').modal('hide');
+                        // Limpiar el formulario
+                      if ($('#frmPassword').length) {
+                          $('#frmPassword')[0].reset();
+                      } else {
+                          console.warn('No se encontró el formulario con ID frmPassword');
+                      }
                     }
                   },
                   error: function(xhr) {  
@@ -99,7 +107,6 @@
 
                 return;
             }
-        });
 
         function recargar_tbody() {
             $.ajax({

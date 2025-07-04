@@ -2,7 +2,8 @@
     <tr>
         <td>{{ $items->name }}</td>
         <td>
-            <a href="#" onclick="agregar_id_usuario({{ $items->id }})" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#cambiar_password">
+            <a href="#" onclick="agregar_id_usuario({{ $items->id }})" 
+                class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#cambiar_password">
                 <i class="fa-solid fa-user-lock"></i>
             </a>
         </td>
