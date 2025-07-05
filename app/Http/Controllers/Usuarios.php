@@ -85,4 +85,15 @@ class Usuarios extends Controller
             return redirect()->route('usuario')->with('error', 'Error al eliminar el usuario');
         }
     }
+
+    public function tbody(){
+        $item = User::all();
+        return view('modules.usuarios.tbody', compact('item'));
+    }
+
+    public function estado($id, $estado){
+        $item = User::find($id);
+        $item->activo = $estado;
+        return $item->save();
+    }
 }

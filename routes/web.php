@@ -61,6 +61,8 @@ Route::middleware('auth')->group(function(){
     Route::prefix('usuario')->middleware('auth')->group(function(){
         Route::get('/', [Usuarios::class, 'index'])->name('usuario');
         Route::get('/create', [Usuarios::class, 'create'])->name('usuario.create');
+        Route::get('/tbody', [Usuarios::class, 'tbody'])->name('usuario.tbody');
+        Route::get('/cambiar-estado/{id}/{estado}', [Usuarios::class, 'estado'])->name('usuario.estado');
         Route::post('/store', [Usuarios::class, 'store'])->name('usuario.store');
         Route::get('/show/{id}', [Usuarios::class, 'show'])->name('usuario.show');
         Route::get('/edit/{id}', [Usuarios::class, 'edit'])->name('usuario.edit');
