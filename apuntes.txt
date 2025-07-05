@@ -1,5 +1,5 @@
 Migrar DB
-php artisan migrate 
+php artisan migrate
 
 Nueva Migración
 php artisan make:migration create_nombre_table
@@ -13,5 +13,5 @@ php artisan migrate:refresh
 funcionamiento
 docker-compose build
 
-docker-compose exec laravel bash 
+docker-compose exec laravel bash
 docker-compose run --rm laravel bash
