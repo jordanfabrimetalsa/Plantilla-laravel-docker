@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class Usuarios extends Controller
 {
@@ -30,7 +31,7 @@ class Usuarios extends Controller
             'rol' => 'required',
         ]);
 
-        $request->password = bcrypt($request->password);
+        $request->password = Hash::make($request->password);
         $request->rol = $request->rol == 'admin' ? 'admin' : 'user';
         $request->activo = $request->activo == '1' ? true : false;
         $request->user_id = Auth::user()->id;
@@ -53,14 +54,27 @@ class Usuarios extends Controller
 
     public function update(Request $request, string $id)
     {
-        //
+        $usuario = User::find($id);
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+            'activo' => 'required',
+            'rol' => 'required',
+        ]);
+
+        $request->password = Hash::make($request->password);
+        $request->rol = $request->rol == 'admin' ? 'admin' : 'user';
+        $request->activo = $request->activo == '1' ? true : false;
+        $request->user_id = Auth::user()->id;
+        $request->save();
+        return redirect()->route('usuario');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        $usuario = User::find($id);
+        $usuario->delete();
+        return redirect()->route('usuario');
     }
 }
