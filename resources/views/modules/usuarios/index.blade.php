@@ -79,7 +79,11 @@
                 let password = $('#password').val();
 
                 if (!password) {
-                    alert('Por favor ingrese una contraseña');
+                    swal.fire({
+                      icon: 'error',
+                      title: 'Error',
+                      text: 'Por favor ingrese una contraseña',
+                    })
                     return;
                 }
                 
