@@ -22,59 +22,99 @@ class Usuarios extends Controller
     }
     public function store(Request $request)
     {
-        $usuario = New User();
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required',
-            'password' => 'required',
-            'activo' => 'required',
-            'rol' => 'required',
-        ]);
+        try{
+            $usuario = New User();
 
-        $request->password = Hash::make($request->password);
-        $request->rol = $request->rol == 'admin' ? 'admin' : 'user';
-        $request->activo = $request->activo == '1' ? true : false;
-        $request->user_id = Auth::user()->id;
-        $request->save();
-        return redirect()->route('usuario');
+            $request->validate([
+                'name' => 'required',
+                'email' => 'required',
+                'password' => 'required',
+                'activo' => 'required',
+                'rol' => 'required',
+            ]);
+
+            $usuario->name = $request->name;
+            $usuario->email = $request->email;
+            $usuario->password = Hash::make($request->password);
+            $usuario->rol = $request->rol == 'admin' ? 'admin' : 'user';
+            $usuario->activo = $request->activo == '1' ? true : false;
+            $usuario->save();
+            return redirect()->route('usuario')->with('success', 'Usuario creado correctamente');
+        }catch(Exception $e){
+            return redirect()->route('usuario')->with('error', $e->getMessage());
+        }
     }
     public function show(string $id)
     {
-        $item = User::find($id);
+        $item = User::findOrFail($id);
         $titulo = 'Eliminar Usuario';
         return view('modules.usuarios.show', compact('item', 'titulo'));
     }
 
     public function edit(string $id)
     {
-        $item = User::find($id);
+        $item = User::findOrFail($id);
         $titulo = 'Editar Usuario';
         return view('modules.usuarios.edit', compact('item', 'titulo'));
     }
 
     public function update(Request $request, string $id)
     {
-        $usuario = User::find($id);
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required',
-            'password' => 'required',
-            'activo' => 'required',
-            'rol' => 'required',
-        ]);
+        try{
+            $usuario = User::findOrFail($id);
+            $request->validate([
+                'name' => 'required',
+                'email' => 'required',
+                'password' => 'required',
+                'activo' => 'required',
+                'rol' => 'required',
+            ]);
 
-        $request->password = Hash::make($request->password);
-        $request->rol = $request->rol == 'admin' ? 'admin' : 'user';
-        $request->activo = $request->activo == '1' ? true : false;
-        $request->user_id = Auth::user()->id;
-        $request->save();
-        return redirect()->route('usuario');
+            $usuario->name = $request->name;
+            $usuario->email = $request->email;
+            $usuario->password = Hash::make($request->password);
+            $usuario->rol = $request->rol == 'admin' ? 'admin' : 'user';
+            $usuario->activo = $request->activo == '1' ? true : false;
+            $usuario->save();
+            return redirect()->route('usuario')->with('success', 'Usuario actualizado correctamente');
+        }catch(Exception $e){
+            return redirect()->route('usuario')->with('error', $e->getMessage());
+        }
     }
 
     public function destroy(string $id)
     {
-        $usuario = User::find($id);
-        $usuario->delete();
-        return redirect()->route('usuario');
+        try{
+            $usuario = User::findOrFail($id);
+            $usuario->delete();
+            return redirect()->route('usuario')->with('success', 'Usuario eliminado correctamente');
+        }catch(Exception $e){
+            return redirect()->route('usuario')->with('error', $e->getMessage());
+        }
+    }
+
+    public function tbody(){
+        $item = User::all();
+        return view('modules.usuarios.tbody', compact('item'));
+    }
+
+    public function estado($id, $estado){
+        try{
+            $usuario = User::findOrFail($id);
+            $usuario->activo = $estado;
+            return $usuario->save();
+        }catch(Exception $e){
+            return redirect()->route('usuario')->with('error', $e->getMessage());
+        }
+    }
+
+    public function cambio_password($id, $password){
+        try{
+            $usuario = User::findOrFail($id);
+            $usuario->password = Hash::make($password);
+            return $usuario->save();
+        }catch(Exception $e){
+            return redirect()->route('usuario')->with('error', $e->getMessage());
+        }
     }
 }

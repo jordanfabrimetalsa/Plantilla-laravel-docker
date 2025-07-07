@@ -23,12 +23,6 @@
                 </a>
 
 
-                @if (session('success'))
-                    <div class="alert alert-success mb-3 mt-3">
-                        {{ session('success') }}
-                    </div>
-                @endif
-
                 <div class="table-responsive">
                     <table class="table table-bordered datatable" id="usuariosTable">
                         <thead>
@@ -57,6 +51,25 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    @if (session('success'))
+        <script>
+            swal.fire({
+                icon: 'success',
+                title: 'Exito',
+                text: '{{ session('success') }}',
+              })
+        </script>
+    @endif
+
+    @if (session('error'))
+        <script>
+            swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: '{{ session('error') }}',
+              })
+        </script>
+    @endif
 
     <script>
         $(document).ready(function() {
@@ -111,10 +124,13 @@
                   url: "usuario/cambiar-password/" + id + "/" + password,
                   success: function(response) {
                     if(response == 1){
-                      alert('Contraseña cambiada correctamente');
-                      // Cerrar el modal
+                      swal.fire({
+                        icon: 'success',
+                        title: 'Contraseña cambiada correctamente',
+                        showConfirmButton: true,
+                        timer: 1500
+                      })
                       $('#cambiar_password').modal('hide');
-                        // Limpiar el formulario
                       if ($('#frmPassword').length) {
                           $('#frmPassword')[0].reset();
                       } else {
@@ -124,7 +140,11 @@
                   },
                   error: function(xhr) {
                     console.error('Error:', xhr.responseText);
-                    alert('Error al cambiar la contraseña');
+                    swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Error al cambiar la contraseña',
+                      })
                   }
                 })
 
@@ -140,6 +160,11 @@
                 },
                 error: function(error) {
                     console.log(error);
+                    swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Error al cambiar el estado',
+                      })
                 }
             });
         }
@@ -150,12 +175,22 @@
                 url: "usuario/cambiar-estado/" + usuario_id + "/" + estado,
                 success: function(response) {
                     if (response == 1) {
-                        alert('Estado cambiado correctamente');
+                        swal.fire({
+                            icon: 'success',
+                            title: 'Estado cambiado correctamente',
+                            showConfirmButton: true,
+                            timer: 1500
+                          })
                         recargar_tbody();
                     }
                 },
                 error: function(error) {
                     console.log(error);
+                    swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Error al cambiar el estado',
+                      })
                 }
             });
         }
