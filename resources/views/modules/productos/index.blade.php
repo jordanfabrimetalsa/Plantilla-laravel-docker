@@ -17,10 +17,9 @@
                             <p>Administrar los productos de nuestro sistema.</p>
 
                             <a href="{{ route('producto.create') }}" class="btn btn-primary"><i class="fa-solid fa-circle-plus"></i> Crear Producto</a>
-                            <a href="" class="btn btn-primary">Productos con stock minimo</a>
                             <hr>
 
-                            <table id="productoTable" class="table datatable table-bordered table-striped">
+                            <table id="productoTable" class="table table-responsive datatable table-bordered table-striped">
                                 <thead class="table-dark">
                                     <tr>
                                         <th>Categoria</th>
@@ -55,14 +54,17 @@
                                             <td>{{ $item->cantidad }}</td>
                                             <td>{{ $item->precio_compra }}</td>
                                             <td>{{ $item->precio_venta }}</td>
-                                            <td>@if($item->activo == 1) Activo @else Inactivo @endif</td>
+                                            <td><div class="form-check form-switch">
+                                                <input  class="form-check-input" type="checkbox" id="{{ $item->id }}"
+                                                {{ $item->activo ? 'checked' : '' }}>
+                                            </div></td>
                                             <td>
                                                 <a href="#" class="btn btn-info"><i class="fa-solid fa-cart-plus"></i></a>
                                             </td>
                                             <td>
                                                 <a href="{{ route('producto.edit', $item->id) }}" class="btn btn-warning"><i
                                                         class="fa-solid fa-pen-to-square"></i></a>
-                                                <a href="{{ route('producto.show', $item->id) }}" class="btn btn-danger"><i
+                                                <a href="{{ route('producto.destroy', $item->id) }}" class="btn btn-danger"><i
                                                         class="fa-solid fa-trash-can"></i></a>
                                             </td>
                                         </tr>
@@ -106,6 +108,41 @@
                     "previous": "Anterior"
                 }
             }
+        });
+
+        function cambiar_estado(producto_id, estado) {
+            console.log(producto_id, estado);
+            $.ajax({
+                type: "GET",
+                url: "producto/cambiar-estado/" + producto_id + "/" + estado,
+                success: function(response) {
+                    if (response == 1) {
+                        swal.fire({
+                            icon: 'success',
+                            title: 'Estado cambiado correctamente',
+                            showConfirmButton: true,
+                            timer: 1500
+                          })
+                        recargar_tbody();
+                    }
+                },
+                error: function(error) {
+                    console.log(error);
+                    swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Error al cambiar el estado',
+                      })
+                }
+            });
+        }
+
+        $(document).ready(function(){
+            $('.form-check-input').on('change', function(){
+                let id = $(this).attr('id');
+                let estado = $(this).is(':checked') ? 1 : 0;
+                cambiar_estado(id, estado);
+            });
         });
     </script>
 @endpush

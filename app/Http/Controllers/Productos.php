@@ -58,7 +58,8 @@ class Productos extends Controller
         $item = Producto::with('categoria')->find($id);
         $titulo = 'Editar Producto';
         $categorias = Categoria::all();
-        return view('modules.productos.edit', compact('item', 'titulo', 'categorias'));
+        $proveedor = Proveedor::all();
+        return view('modules.productos.edit', compact('item', 'titulo', 'categorias', 'proveedor'));
     }
 
     public function update(Request $request, string $id)
@@ -67,9 +68,11 @@ class Productos extends Controller
             $item = Producto::find($id);
             $item->nombre = $request->nombre;
             $item->descripcion = $request->descripcion;
-            $item->precio = $request->precio;
+            $item->precio_compra = $request->precio_compra;
+            $item->precio_venta = $request->precio_venta;
             $item->cantidad = $request->cantidad;
             $item->categoria_id = $request->categoria_id;
+            $item->proveedor_id = $request->proveedor_id;
             $item->update();
             return to_route('producto')->with('success', 'Ha podido ser llevado a cabo con exito!');
         }catch(Exception $e){

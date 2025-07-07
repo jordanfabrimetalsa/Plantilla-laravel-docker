@@ -45,6 +45,7 @@ Route::middleware('auth')->group(function(){
         Route::get('/edit/{id}', [Productos::class, 'edit'])->name('producto.edit');
         Route::put('/update/{id}', [Productos::class, 'update'])->name('producto.update');
         Route::delete('/destroy/{id}', [Productos::class, 'destroy'])->name('producto.destroy');
+        Route::get('/cambiar-estado/{id}/{estado}', [Productos::class, 'estado'])->name('producto.estado');
     });
 
     Route::prefix('proveedor')->middleware('auth')->group(function(){

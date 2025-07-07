@@ -123,4 +123,18 @@ class proveedores extends Controller
             return back()->with('error', $e->getMessage());
         }   
     }
+
+    public function estado(string $id, string $estado)
+    {
+        try{
+            $item = Proveedor::findOrFail($id);
+            $item->activo = $estado;
+            $item->save();
+            return to_route('proveedor')->with('success', 'Proveedor actualizado correctamente');
+        }catch(Exception $e){
+            return back()->with('error', $e->getMessage());
+        }   
+    }   
+
+
 }
