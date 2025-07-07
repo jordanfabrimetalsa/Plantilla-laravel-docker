@@ -53,23 +53,42 @@
 </main>
 @endsection
 @push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>   
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-    
+
     <script>
         $(document).ready(function() {
             // Inicializar DataTable
             $('#usuariosTable').DataTable({
                 responsive: true,
                 language: {
-                    url: '//cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json',
-                    decimal: ',',
-                    thousands: '.',
-                    search: 'Buscar:',
-                    searchPlaceholder: 'Buscar usuarios...'
-                }
+                    "decimal": "",
+                    "emptyTable": "No hay información",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                    "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                    "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "lengthMenu": "Mostrar _MENU_ Entradas",
+                    "loadingRecords": "Cargando...",
+                    "processing": "Procesando...",
+                    "search": "Buscar:",
+                    "zeroRecords": "Sin resultados encontrados",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+                },
+            });
+            // Inicializar evento del checkbox al cargar la página
+            $('.form-check-input').on('change', function(){
+                let id = $(this).attr("id");
+                let estado = $(this).is(":checked") ? 1 : 0;
+                cambiar_estado(id, estado);
             });
         });
 
@@ -86,7 +105,7 @@
                     })
                     return;
                 }
-                
+
                 $.ajax({
                   type: "GET",
                   url: "usuario/cambiar-password/" + id + "/" + password,
@@ -103,7 +122,7 @@
                       }
                     }
                   },
-                  error: function(xhr) {  
+                  error: function(xhr) {
                     console.error('Error:', xhr.responseText);
                     alert('Error al cambiar la contraseña');
                   }

@@ -7,7 +7,6 @@ use App\Http\Controllers\DetalleVentas;
 use App\Http\Controllers\Productos;
 use App\Http\Controllers\Usuarios;
 use App\Http\Controllers\Ventas;
-use App\Models\Categoria;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/crear-admin', [AuthController::class, 'crearAdmin'])->name('crear-admin');
@@ -47,7 +46,7 @@ Route::middleware('auth')->group(function(){
         Route::put('/update/{id}', [Productos::class, 'update'])->name('producto.update');
         Route::delete('/destroy/{id}', [Productos::class, 'destroy'])->name('producto.destroy');
     });
-    
+
     Route::prefix('cliente')->middleware('auth')->group(function(){
         Route::get('/', [Clientes::class, 'index'])->name('cliente');
         Route::get('/create', [Clientes::class, 'create'])->name('cliente.create');
@@ -57,11 +56,13 @@ Route::middleware('auth')->group(function(){
         Route::put('/update/{id}', [Clientes::class, 'update'])->name('cliente.update');
         Route::delete('/destroy/{id}', [Clientes::class, 'destroy'])->name('cliente.destroy');
         Route::put('/change-activo/{id}', [Clientes::class, 'changeActivo'])->name('cliente.changeActivo');
-    }); 
+    });
 
     Route::prefix('usuario')->middleware('auth')->group(function(){
         Route::get('/', [Usuarios::class, 'index'])->name('usuario');
         Route::get('/create', [Usuarios::class, 'create'])->name('usuario.create');
+        Route::get('/tbody', [Usuarios::class, 'tbody'])->name('usuario.tbody');
+        Route::get('/cambiar-estado/{id}/{estado}', [Usuarios::class, 'estado'])->name('usuario.estado');
         Route::post('/store', [Usuarios::class, 'store'])->name('usuario.store');
         Route::get('/show/{id}', [Usuarios::class, 'show'])->name('usuario.show');
         Route::get('/edit/{id}', [Usuarios::class, 'edit'])->name('usuario.edit');

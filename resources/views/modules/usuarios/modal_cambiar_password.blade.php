@@ -1,5 +1,5 @@
 
-  
+
   <!-- Modal -->
   <form id="frmPassword">
     <div class="modal fade" id="cambiar_password" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -22,4 +22,3 @@
         </div>
       </div>
   </form>
-  
