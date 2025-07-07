@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('compras', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('producto_id')->constrained('productos')->cascadeOnDelete();
+            $table->foreignId('proveedor_id')->constrained('proveedores')->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->integer('cantidad')->default(0);
+            $table->float('precio_compra')->default(0);
             $table->timestamps();
         });
     }

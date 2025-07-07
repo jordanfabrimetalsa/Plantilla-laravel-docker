@@ -2,7 +2,7 @@
 
 
 namespace App\Http\Controllers;
-use App\Models\Cliente;
+use App\Models\Proveedor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,7 +12,7 @@ class proveedores extends Controller
     {
         try{
             $titulo = 'proveedores';
-            $items = Cliente::all();
+            $items = Proveedor::all();
             return view('modules.proveedores.index', compact('titulo', 'items'));
         }catch(Exception $e){
             return back()->with('error', $e->getMessage());
@@ -33,7 +33,7 @@ class proveedores extends Controller
     {
 
         try{
-            $item = new Cliente();
+            $item = new Proveedor();
 
             $request->validate([
                 'nombre' => 'required',
@@ -65,7 +65,7 @@ class proveedores extends Controller
     {
         try{
             $titulo = 'Eliminar Proveedor';
-            $item = Cliente::findOrFail($id);
+            $item = Proveedor::findOrFail($id);
             return view('modules.proveedores.show', compact('item', 'titulo'));
         }catch(Exception $e){
             return back()->with('error', $e->getMessage());
@@ -75,7 +75,7 @@ class proveedores extends Controller
     public function edit(string $id)
     {
         try{
-            $item = Cliente::findOrFail($id);
+            $item = Proveedor::findOrFail($id);
             $titulo = 'Editar Proveedor';
             return view('modules.proveedores.edit', compact('item', 'titulo'));
         }catch(Exception $e){

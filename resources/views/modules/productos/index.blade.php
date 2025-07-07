@@ -39,16 +39,26 @@
                                 <tbody>
                                     @foreach ($items as $item)
                                         <tr>
+                                            @foreach($categorias as $categoria)
+                                                @if($categoria->id == $item->categoria_id)
+                                                    <td>{{ $categoria->nombre }}</td>
+                                                @endif
+                                            @endforeach
+                                            @foreach($proveedores as $proveedor)
+                                                @if($proveedor->id == $item->proveedor_id)
+                                                    <td>{{ $proveedor->nombre }}</td>
+                                                @endif
+                                            @endforeach
                                             <td>{{ $item->nombre }}</td>
+                                            <td>{{ $item->imagen }}</td>
                                             <td>{{ $item->descripcion }}</td>
-                                            <td>{{ $item->precio }}</td>
                                             <td>{{ $item->cantidad }}</td>
-                                            <td>{{ $item->categoria->nombre }}</td>
-                                            <td>{{ $item->categoria->nombre }}</td>
-                                            <td>{{ $item->categoria->nombre }}</td>
-                                            <td>{{ $item->categoria->nombre }}</td>
-                                            <td>{{ $item->categoria->nombre }}</td>
-                                            <td>{{ $item->categoria->nombre }}</td>
+                                            <td>{{ $item->precio_compra }}</td>
+                                            <td>{{ $item->precio_venta }}</td>
+                                            <td>@if($item->activo == 1) Activo @else Inactivo @endif</td>
+                                            <td>
+                                                <a href="#" class="btn btn-info"><i class="fa-solid fa-cart-plus"></i></a>
+                                            </td>
                                             <td>
                                                 <a href="{{ route('producto.edit', $item->id) }}" class="btn btn-warning"><i
                                                         class="fa-solid fa-pen-to-square"></i></a>

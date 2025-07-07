@@ -15,3 +15,10 @@ docker-compose build
 
 docker-compose exec laravel bash
 docker-compose run --rm laravel bash
+
+php artisan db:wipe -> elimina todas las tablas
+
+php artisan config:clear
+php artisan cache:clear
+php artisan view:clear
+php artisan route:clear

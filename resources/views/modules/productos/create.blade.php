@@ -14,29 +14,28 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Agregar Nuevo Producto</h5>
-
+                            <br>
                             <form action="{{ route('producto.store') }}" method="POST">
                                 @csrf
-                                <label for="">Nombre de la Producto</label>
-                                <input type="text" class="form-control" required name="nombre" id="nombre">
-
-                                <label for="">Descripción</label>
-                                <input type="text" class="form-control" required name="descripcion" id="descripcion">
-
-                                <label for="">Precio</label>
-                                <input type="number" class="form-control" required name="precio" id="precio">
-
-                                <label for="">Cantidad</label>
-                                <input type="number" class="form-control" required name="cantidad" id="cantidad">
-
-                                <label for="">Categoria</label>
+                                <label for="categoria_id">Categoria</label>
                                 <select name="categoria_id" id="categoria_id" class="form-control">
                                     <option value="">Seleccionar Categoria</option>
                                     @foreach ($categorias as $categoria)
                                         <option value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
                                     @endforeach
                                 </select>
+                                <label for="proveedor_id">Proveedor</label>
+                                <select name="proveedor_id" id="proveedor_id" class="form-control">
+                                    <option value="">Seleccionar Proveedor</option>
+                                    @foreach ($proveedor as $proveedor)
+                                        <option value="{{ $proveedor->id }}">{{ $proveedor->nombre }}</option>
+                                    @endforeach
+                                </select>
+                                <label for="">Nombre de la Producto</label>
+                                <input type="text" class="form-control" required name="nombre" id="nombre">
+
+                                <label for="">Descripción</label>
+                                <textarea class="form-control" required rows="3" name="descripcion" id="descripcion"></textarea>
 
                                 <button class="btn btn-primary mt-3">Guardar</button>
                                 <a href="{{ route('producto') }}" class="btn btn-danger mt-3">Cancelar</a>
