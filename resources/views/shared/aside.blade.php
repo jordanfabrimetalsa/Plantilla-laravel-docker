@@ -11,6 +11,24 @@
       </li>
 
       <li class="nav-heading">Pages</li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+          <i class="fa-solid fa-cart-shopping"></i><span>Ventas</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="">
+              <i class="bi bi-circle"></i><span>Vender Producto</span>
+            </a>
+          </li>
+          <li>
+            <a href="">
+              <i class="bi bi-circle"></i><span>Consultar Ventas</span>
+            </a>
+          </li>
+          
+        </ul>
+      </li>
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="{{ route('nueva-venta') }}">
@@ -41,9 +59,9 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="{{ route('cliente') }}">
+        <a class="nav-link collapsed" href="{{ route('proveedor') }}">
           <i class="bi bi-file-earmark"></i>
-          <span>Clientes</span>
+          <span>Proveedores</span>
         </a>
       </li>
 
@@ -57,7 +75,7 @@
       <li class="nav-item">
         <a class="nav-link collapsed" href="{{ route('logout') }}">
             <i class="bi bi-box-arrow-right"></i>
-          <span>Sign Out</span>
+          <span>Cerrar Sesión</span>
         </a>
       </li>
     </ul>

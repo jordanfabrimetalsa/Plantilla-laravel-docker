@@ -5,7 +5,7 @@
 @section('content')
     <main id="main" class="main">
         <div class="pagetitle">
-            <h1>Detalle de Producto</h1>
+            <h1>Productos</h1>
         </div>
 
         <section class="section dashboard">
@@ -13,32 +13,26 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Administrar los Productos</h5>
+                            <br>
                             <p>Administrar los productos de nuestro sistema.</p>
 
-                            @if(session('success'))
-                                <div class="alert alert-success">
-                                    {{session('success')}}
-                                </div>
-                            @endif
-
-                             @if(session('error'))
-                                <div class="alert alert-danger">
-                                    {{ session('error') }}
-                                </div>
-                             @endif
-
-                            <a href="{{ route('producto.create') }}" class="btn btn-primary"><i class="fa-solid fa-circle-plus"></i></a>
+                            <a href="{{ route('producto.create') }}" class="btn btn-primary"><i class="fa-solid fa-circle-plus"></i> Crear Producto</a>
+                            <a href="" class="btn btn-primary">Productos con stock minimo</a>
                             <hr>
 
-                            <table id="productoTable" class="table datatable">
-                                <thead>
+                            <table id="productoTable" class="table datatable table-bordered table-striped">
+                                <thead class="table-dark">
                                     <tr>
-                                        <th>Nombre Producto</th>
-                                        <th>Descripción</th>
-                                        <th>Precio</th>
-                                        <th>Cantidad</th>
                                         <th>Categoria</th>
+                                        <th>Proveedor</th>
+                                        <th>Nombre</th>
+                                        <th>Imagen</th>
+                                        <th>Descripcion</th>
+                                        <th>Cantidad</th>
+                                        <th>Venta</th>
+                                        <th>Compra</th>
+                                        <th>Activo</th>
+                                        <th>Comprar</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
@@ -49,6 +43,11 @@
                                             <td>{{ $item->descripcion }}</td>
                                             <td>{{ $item->precio }}</td>
                                             <td>{{ $item->cantidad }}</td>
+                                            <td>{{ $item->categoria->nombre }}</td>
+                                            <td>{{ $item->categoria->nombre }}</td>
+                                            <td>{{ $item->categoria->nombre }}</td>
+                                            <td>{{ $item->categoria->nombre }}</td>
+                                            <td>{{ $item->categoria->nombre }}</td>
                                             <td>{{ $item->categoria->nombre }}</td>
                                             <td>
                                                 <a href="{{ route('producto.edit', $item->id) }}" class="btn btn-warning"><i

@@ -5,46 +5,45 @@
 @section('content')
 <main id="main" class="main">
         <div class="pagetitle">
-            <h1>Agregar Cliente</h1>
+            <h1>Editar Proveedor</h1>
         </div>
 
         <section class="section">
             <div class="row">
                 <div class="col-lg-12">
-
+                    
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Agregar Nuevo Cliente</h5>
-
-                            <form action="{{ route('cliente.store') }}" method="POST">
+                            <br>
+                            <form action="{{ route('proveedor.update', $item->id) }}" method="POST">
                                 @csrf
-                                <label for="">Nombre de la Cliente</label>
-                                <input type="text" class="form-control" required name="nombre" id="nombre">
+                                @method('PUT')
+                                <label for="">Nombre de la Proveedor</label>
+                                <input type="text" class="form-control" required name="nombre" id="nombre" value="{{ $item->nombre }}">
 
                                 <label for="">Apellido</label>
-                                <input type="text" class="form-control" required name="apellido" id="apellido">
+                                <input type="text" class="form-control" required name="apellido" id="apellido" value="{{ $item->apellido }}">
 
                                 <label for="">Email</label>
-                                <input type="email" class="form-control" required name="email" id="email">
+                                <input type="email" class="form-control" required name="email" id="email" value="{{ $item->email }}">
 
                                 <label for="">Telefono</label>
-                                <input type="number" class="form-control" required name="telefono" id="telefono">
+                                <input type="number" class="form-control" required name="telefono" id="telefono" value="{{ $item->telefono }}">
 
                                 <label for="">Direccion</label>
-                                <input type="text" class="form-control" required name="direccion" id="direccion">
-
-
+                                <input type="text" class="form-control" required name="direccion" id="direccion" value="{{ $item->direccion }}">
+                                
                                 <label for="">Rol</label>
-                                <input type="text" class="form-control" required name="rol" id="rol">
+                                <input type="text" class="form-control" required name="rol" id="rol" value="{{ $item->rol }}">
 
                                 <div class="form-check form-switch mt-2">
-                                    <input type="hidden" name="activo" id="activo" value="1">
-                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
+                                    <input type="hidden" name="activo" id="activo" value="{{ $item->activo }}">
+                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" {{ $item->activo == 1 ? 'checked' : '' }}>
                                     <label class="form-check-label" id="text-activo" for="flexSwitchCheckChecked">Activo</label>
                                 </div>
 
                                 <button class="btn btn-primary mt-3">Guardar</button>
-                                <a href="{{ route('cliente') }}" class="btn btn-danger mt-3">Cancelar</a>
+                                <a href="{{ route('proveedor') }}" class="btn btn-danger mt-3">Cancelar</a>
                             </form>
                         </div>
                     </div>  

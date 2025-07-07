@@ -1,9 +1,9 @@
 <?php
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Categorias;
-use App\Http\Controllers\Clientes;
+use App\Http\Controllers\Proveedores;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\DetalleVentas;
+use App\Http\Controllers\DetalleVentas; 
 use App\Http\Controllers\Productos;
 use App\Http\Controllers\Usuarios;
 use App\Http\Controllers\Ventas;
@@ -47,15 +47,15 @@ Route::middleware('auth')->group(function(){
         Route::delete('/destroy/{id}', [Productos::class, 'destroy'])->name('producto.destroy');
     });
 
-    Route::prefix('cliente')->middleware('auth')->group(function(){
-        Route::get('/', [Clientes::class, 'index'])->name('cliente');
-        Route::get('/create', [Clientes::class, 'create'])->name('cliente.create');
-        Route::post('/store', [Clientes::class, 'store'])->name('cliente.store');
-        Route::get('/show/{id}', [Clientes::class, 'show'])->name('cliente.show');
-        Route::get('/edit/{id}', [Clientes::class, 'edit'])->name('cliente.edit');
-        Route::put('/update/{id}', [Clientes::class, 'update'])->name('cliente.update');
-        Route::delete('/destroy/{id}', [Clientes::class, 'destroy'])->name('cliente.destroy');
-        Route::put('/change-activo/{id}', [Clientes::class, 'changeActivo'])->name('cliente.changeActivo');
+    Route::prefix('proveedor')->middleware('auth')->group(function(){
+        Route::get('/', [proveedores::class, 'index'])->name('proveedor');
+        Route::get('/create', [proveedores::class, 'create'])->name('proveedor.create');
+        Route::post('/store', [proveedores::class, 'store'])->name('proveedor.store');
+        Route::get('/show/{id}', [proveedores::class, 'show'])->name('proveedor.show');
+        Route::get('/edit/{id}', [proveedores::class, 'edit'])->name('proveedor.edit');
+        Route::put('/update/{id}', [proveedores::class, 'update'])->name('proveedor.update');
+        Route::delete('/destroy/{id}', [proveedores::class, 'destroy'])->name('proveedor.destroy');
+        Route::put('/change-activo/{id}', [proveedores::class, 'changeActivo'])->name('proveedor.changeActivo');
     });
 
     Route::prefix('usuario')->middleware('auth')->group(function(){
