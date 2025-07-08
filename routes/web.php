@@ -48,6 +48,8 @@ Route::middleware('auth')->group(function(){
         Route::put('/update/{id}', [Productos::class, 'update'])->name('producto.update');
         Route::delete('/destroy/{id}', [Productos::class, 'destroy'])->name('producto.destroy');
         Route::get('/cambiar-estado/{id}/{estado}', [Productos::class, 'estado'])->name('producto.estado');
+        Route::get('/update-image/{id}', [Productos::class, 'update_image'])->name('producto.update-image');
+        Route::get('/show-image/{id}', [Productos::class, 'show_image'])->name('producto.show-image');
     });
 
     Route::prefix('productos_reporte')->middleware('auth')->group(function(){
@@ -85,7 +87,6 @@ Route::middleware('auth')->group(function(){
         Route::get('/create/{id}', [Compras::class, 'create'])->name('compras.create');
         Route::post('/store', [Compras::class, 'store'])->name('compras.store');
     });
-
 });
 
 

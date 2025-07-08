@@ -18,7 +18,8 @@ class Productos extends Controller
         $items = Producto::all();
         $categorias = Categoria::all();
         $proveedores = Proveedor::all();
-        return view('modules.productos.index', compact('titulo', 'items', 'categorias', 'proveedores'));
+        $imagenes = Imagen::all();
+        return view('modules.productos.index', compact('titulo', 'items', 'categorias', 'proveedores', 'imagenes'));
     }
 
     public function create()
@@ -60,7 +61,8 @@ class Productos extends Controller
             $nombreImagen = basename($rutaImagen);
             $imagen = new Imagen();
             $imagen->producto_id = $id_producto;
-            $imagen->imagen = $nombreImagen;
+            $imagen->nombre = $nombreImagen;
+            $imagen->ruta = $rutaImagen;
             $imagen->save();
 
             return true;
@@ -125,5 +127,19 @@ class Productos extends Controller
             return back()->with('error', $e->getMessage());
         }   
     }   
+
+    public function update_image(string $id)
+    {
+        $item = Imagen::find($id);
+        $titulo = 'Editar Imagen';
+        return view('modules.productos.update-image', compact('item', 'titulo'));
+    }
+
+    public function show_image(string $id)
+    {
+        $item = Imagen::find($id);
+        $titulo = 'Ver Imagen';
+        return view('modules.productos.show-images', compact('item', 'titulo'));
+    }
 
 }

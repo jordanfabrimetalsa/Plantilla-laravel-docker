@@ -49,7 +49,14 @@
                                                 @endif
                                             @endforeach
                                             <td>{{ $item->nombre }}</td>
-                                            <td>{{ $item->imagen }}</td>
+                                            <td>
+                                                @foreach($imagenes as $imagen)
+                                                    @if($imagen->producto_id == $item->id)
+                                                        <img src="{{ asset('storage/' . $imagen->ruta) }}" alt="" width="60px" heigh="50px">
+                                                        <a href="{{ route('producto.show-image', $imagen->id) }}" class="badge rounded-pill bg-warning text-dark"><i class="fa-solid fa-pen-to-square"></i></a>
+                                                    @endif
+                                                @endforeach
+                                            </td>
                                             <td>{{ $item->descripcion }}</td>
                                             <td>{{ $item->cantidad }}</td>
                                             <td>{{ $item->precio_venta }}</td>

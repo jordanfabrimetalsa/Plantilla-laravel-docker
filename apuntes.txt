@@ -25,5 +25,7 @@ php artisan route:clear
 
 php artisan make:model -mcr
 
+php artisan storage:link -> permite manejar imagenes
+
 
 
