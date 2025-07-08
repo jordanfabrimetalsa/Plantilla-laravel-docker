@@ -5,8 +5,10 @@ use App\Http\Controllers\Proveedores;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DetalleVentas; 
 use App\Http\Controllers\Productos;
+use App\Http\Controllers\ReportesProductos;
 use App\Http\Controllers\Usuarios;
 use App\Http\Controllers\Ventas;
+use App\Http\Controllers\Compras;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/crear-admin', [AuthController::class, 'crearAdmin'])->name('crear-admin');
@@ -48,6 +50,11 @@ Route::middleware('auth')->group(function(){
         Route::get('/cambiar-estado/{id}/{estado}', [Productos::class, 'estado'])->name('producto.estado');
     });
 
+    Route::prefix('productos_reporte')->middleware('auth')->group(function(){
+        Route::get('/', [ReportesProductos::class, 'index'])->name('productos_reporte');
+        Route::get('/pdf', [ReportesProductos::class, 'pdf'])->name('productos_reporte.pdf');
+    });
+
     Route::prefix('proveedor')->middleware('auth')->group(function(){
         Route::get('/', [proveedores::class, 'index'])->name('proveedor');
         Route::get('/create', [proveedores::class, 'create'])->name('proveedor.create');
@@ -72,6 +79,13 @@ Route::middleware('auth')->group(function(){
         Route::get('/cambiar-estado/{id}/{estado}', [Usuarios::class, 'estado'])->name('usuario.estado');
         Route::get('/cambiar-password/{id}/{password}', [Usuarios::class, 'cambio_password'])->name('usuario.password');
     });
+
+    Route::prefix('compras')->middleware('auth')->group(function(){
+        Route::get('/', [Compras::class, 'index'])->name('compras');
+        Route::get('/create/{id}', [Compras::class, 'create'])->name('compras.create');
+        Route::post('/store', [Compras::class, 'store'])->name('compras.store');
+    });
+
 });
 
 

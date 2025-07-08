@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Producto;
 use App\Models\Categoria;
 use App\Models\Proveedor;
+use App\Models\Imagen;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -38,11 +39,34 @@ class Productos extends Controller
             $item->nombre = $request->nombre;
             $item->descripcion = $request->descripcion;
             $item->save();
-            return to_route('producto')->with('success', 'Ha sido creado con exito.');
+            $id_producto = $item->id;
+
+            if($id_producto > 0){
+                if($this->subir_imagen($request, $id_producto)){
+                    return to_route('producto')->with('success', 'Ha sido creado con exito.');
+                }else{
+                    return to_route('producto')->with('error', 'No ha subido la imagen.');
+                }
+            }
         }catch(Exception $e){
             return to_route('producto')->with('error', 'No ha podido ser llevado a cabo.');
         }
+    }
 
+    public function subir_imagen(Request $request, $id_producto)
+    {
+        try{
+            $rutaImagen = $request->file('imagen')->store('imagenes', 'public');
+            $nombreImagen = basename($rutaImagen);
+            $imagen = new Imagen();
+            $imagen->producto_id = $id_producto;
+            $imagen->imagen = $nombreImagen;
+            $imagen->save();
+
+            return true;
+        }catch(Exception $e){
+            return false;
+        }
     }
 
     public function show(string $id)
@@ -68,9 +92,7 @@ class Productos extends Controller
             $item = Producto::find($id);
             $item->nombre = $request->nombre;
             $item->descripcion = $request->descripcion;
-            $item->precio_compra = $request->precio_compra;
             $item->precio_venta = $request->precio_venta;
-            $item->cantidad = $request->cantidad;
             $item->categoria_id = $request->categoria_id;
             $item->proveedor_id = $request->proveedor_id;
             $item->update();

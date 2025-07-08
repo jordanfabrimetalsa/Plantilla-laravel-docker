@@ -25,7 +25,7 @@
             </a>
           </li>
           <li>
-            <a href="#" class="{{ request()->routeIs('producto.reportes') ? 'active' : '' }}">
+            <a href="{{ route('productos_reporte') }}" class="{{ request()->routeIs('productos_reporte') ? 'active' : '' }}">
               <i class="bi bi-circle"></i><span>Reporte de Productos</span>
             </a>
           </li>

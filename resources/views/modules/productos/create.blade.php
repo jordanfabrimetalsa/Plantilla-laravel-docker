@@ -15,7 +15,7 @@
                     <div class="card">
                         <div class="card-body">
                             <br>
-                            <form action="{{ route('producto.store') }}" method="POST">
+                            <form action="{{ route('producto.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <label for="categoria_id">Categoria</label>
                                 <select name="categoria_id" id="categoria_id" class="form-control">
@@ -36,6 +36,9 @@
 
                                 <label for="">Descripción</label>
                                 <textarea class="form-control" required rows="3" name="descripcion" id="descripcion"></textarea>
+
+                                <label for="">Imagen</label>
+                                <input type="file" class="form-control" required name="imagen" id="imagen">
 
                                 <button class="btn btn-primary mt-3">Guardar</button>
                                 <a href="{{ route('producto') }}" class="btn btn-danger mt-3">Cancelar</a>

@@ -41,12 +41,6 @@
                                 <label for="">Precio de Venta</label>
                                 <input type="number" class="form-control" required name="precio_venta" id="precio_venta" value="{{ $item->precio_venta }}">
 
-                                <label for="">Precio de Compra</label>
-                                <input type="number" class="form-control" required name="precio_compra" id="precio_compra" value="{{ $item->precio_compra }}">
-
-                                <label for="">Cantidad</label>
-                                <input type="number" class="form-control" required name="cantidad" id="cantidad" value="{{ $item->cantidad }}">
-
                                 <button class="btn btn-primary mt-3">Guardar</button>
                                 <a href="{{ route('producto') }}" class="btn btn-danger mt-3">Cancelar</a>
                             </form>

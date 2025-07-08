@@ -5,7 +5,7 @@
 @section('content')
     <main id="main" class="main">
         <div class="pagetitle">
-            <h1>Productos</h1>
+            <h1>Compras de productos</h1>
         </div>
 
         <section class="section dashboard">
@@ -14,59 +14,43 @@
                     <div class="card">
                         <div class="card-body">
                             <br>
-                            <p>Administrar los productos de nuestro sistema.</p>
+                            <p>Administrar la compra de productos.</p>
 
-                            <a href="{{ route('producto.create') }}" class="btn btn-primary"><i class="fa-solid fa-circle-plus"></i> Crear Producto</a>
                             <hr>
-
                             <table id="productoTable" class="table table-responsive datatable table-bordered table-striped">
                                 <thead class="table-dark">
                                     <tr>
-                                        <th>Categoria</th>
+                                        <th>Usuario</th>
+                                        <th>Producto</th>
                                         <th>Proveedor</th>
-                                        <th>Nombre</th>
-                                        <th>Imagen</th>
-                                        <th>Descripcion</th>
                                         <th>Cantidad</th>
-                                        <th>Venta</th>
-                                        <th>Compra</th>
-                                        <th>Activo</th>
-                                        <th>Comprar</th>
-                                        <th>Acciones</th>
+                                        <th>Precio de Compra</th>
+                                        <th>Precio Total</th>
+                                        <th>Fecha</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($items as $item)
                                         <tr>
-                                            @foreach($categorias as $categoria)
-                                                @if($categoria->id == $item->categoria_id)
-                                                    <td>{{ $categoria->nombre }}</td>
+                                            @foreach($usuario as $user)
+                                                @if($user->id == $item->user_id)
+                                                    <td>{{ $user->name }}</td>
                                                 @endif
                                             @endforeach
-                                            @foreach($proveedores as $proveedor)
-                                                @if($proveedor->id == $item->proveedor_id)
-                                                    <td>{{ $proveedor->nombre }}</td>
+                                            @foreach($producto as $prod)
+                                                @if($prod->id == $item->producto_id)
+                                                    <td>{{ $prod->nombre }}</td>
                                                 @endif
                                             @endforeach
-                                            <td>{{ $item->nombre }}</td>
-                                            <td>{{ $item->imagen }}</td>
-                                            <td>{{ $item->descripcion }}</td>
+                                            @foreach($proveedor as $prov)
+                                                @if($prov->id == $item->proveedor_id)
+                                                    <td>{{ $prov->nombre }}</td>
+                                                @endif
+                                            @endforeach
                                             <td>{{ $item->cantidad }}</td>
-                                            <td>{{ $item->precio_venta }}</td>
-                                            <td>{{ $item->precio_compra }}</td>
-                                            <td><div class="form-check form-switch">
-                                                <input  class="form-check-input" type="checkbox" id="{{ $item->id }}"
-                                                {{ $item->activo ? 'checked' : '' }}>
-                                            </div></td>
-                                            <td>
-                                                <a href="{{ route('compras.create', $item->id) }}" class="btn btn-info"><i class="fa-solid fa-cart-plus"></i></a>
-                                            </td>
-                                            <td>
-                                                <a href="{{ route('producto.edit', $item->id) }}" class="btn btn-warning"><i
-                                                        class="fa-solid fa-pen-to-square"></i></a>
-                                                <a href="{{ route('producto.destroy', $item->id) }}" class="btn btn-danger"><i
-                                                        class="fa-solid fa-trash-can"></i></a>
-                                            </td>
+                                            <td>${{ $item->precio_compra }}</td>
+                                            <td>${{ $item->cantidad * $item->precio_compra }}</td>
+                                            <td>{{ $item->created_at }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
