@@ -91,4 +91,17 @@ class Productos extends Controller
             return to_route('error')->with('error', 'No se ha podido eliminar correctamente');
         }
     }
+
+    public function estado(string $id, string $estado)
+    {
+        try{
+            $item = Producto::findOrFail($id);
+            $item->activo = $estado;
+            $item->save();
+            return to_route('producto')->with('success', 'Producto actualizado correctamente');
+        }catch(Exception $e){
+            return back()->with('error', $e->getMessage());
+        }   
+    }   
+
 }
