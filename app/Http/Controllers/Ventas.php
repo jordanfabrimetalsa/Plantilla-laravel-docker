@@ -20,10 +20,26 @@ class Ventas extends Controller
 
         $items_carrito = Session::get('items_carrito', []);
 
-        $items_carrito[] = [
-            'id' => $item->id,
-            'nombre' => $item->nombre
-        ];
+        $existe_producto = false;
+
+        foreach($items_carrito as $item_carrito){
+            if($item_carrito['id'] == $id_producto){
+                $existe_producto = true;
+                break;
+            }
+        }
+
+        if($existe_producto){
+            $items_carrito['ID'][$id_producto]['cantidad'] += 1;
+        }else{
+            $items_carrito[] = [
+                'id' => $item->id,
+                'codigo' => $item->codigo,
+                'nombre' => $item->nombre,
+                'cantidad' => $item->cantidad,
+                'precio' => $item->precio_venta,
+            ];
+        }
 
         Session::put('items_carrito', $items_carrito);
         $item = Producto::all();

@@ -64,15 +64,23 @@
                                 <table id="carritoTable" class="table table-bordered table-striped">
                                     <thead class="table-dark">
                                         <tr>
-                                            <th>ID</th>
+                                            <th>Codigo</th>
                                             <th>Nombre</th>
+                                            <th>Cantidad</th>
+                                            <th>Precio</th>
+                                            <th>Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach (Session::get('items_carrito') as $item)
                                             <tr>
-                                                <td>{{ $item['id'] }}</td>
+                                                <td>{{ $item['codigo'] }}</td>
                                                 <td>{{ $item['nombre'] }}</td>
+                                                <td>{{ $item['cantidad'] }}</td>
+                                                <td>{{ $item['precio'] }}</td>
+                                                <td>
+                                                    <a href="{{ route('ventas.quitar-carrito', $item['id']) }}" class="btn btn-danger">Quitar</a>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
