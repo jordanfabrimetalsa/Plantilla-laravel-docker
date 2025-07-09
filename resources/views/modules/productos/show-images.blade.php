@@ -16,9 +16,8 @@
                         <div class="card-body">
                             <h5 class="card-title">¿Estas seguro de actualizar esta imagen?</h5>
 
-                            <form action="{{ route('producto.update-image', $item->id) }}" method="POST">
+                            <form action="{{ route('producto.update-image', $item->id) }}" method="POST" enctype="multipart/form-data">
                                 @csrf
-                                @method('PUT')
                                 <label for="">Nombre de la Imagen</label>
                                 <input type="file" class="form-control" name="imagen" id="imagen">
                                 <br>

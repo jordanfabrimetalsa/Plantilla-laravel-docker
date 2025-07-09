@@ -10,9 +10,7 @@ use Illuminate\Http\Request;
 
 class ReportesProductos extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         $titulo = 'Reportes Productos';
@@ -21,51 +19,26 @@ class ReportesProductos extends Controller
         $proveedores = Proveedor::all();
         return view('modules.reportes_productos.index', compact('titulo', 'items', 'categorias', 'proveedores'));
     }
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+ 
+    public function falta_stock()
     {
-        //
+        $titulo = 'Falta Stock';
+        $items = Producto::select(
+            'productos.*',
+            'categorias.nombre as categoria',
+            'proveedores.nombre as proveedor',
+            'imagenes.ruta as imagen_producto',
+            'imagenes.nombre as nombre_producto'
+        )
+        ->join('categorias', 'productos.categoria_id', '=', 'categorias.id')
+        ->join('proveedores', 'productos.proveedor_id', '=', 'proveedores.id')
+        ->join('imagenes', 'productos.id', '=', 'imagenes.producto_id')
+        ->whereBetween('productos.cantidad', [0, 1])
+        ->get();
+        $categorias = Categoria::all();
+        $proveedores = Proveedor::all();
+        return view('modules.reportes_productos.index', compact('titulo', 'items', 'categorias', 'proveedores'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Reportes_productos $reportes_productos)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Reportes_productos $reportes_productos)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Reportes_productos $reportes_productos)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Reportes_productos $reportes_productos)
-    {
-        //
-    }
+ 
 }

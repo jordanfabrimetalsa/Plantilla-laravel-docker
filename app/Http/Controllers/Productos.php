@@ -9,6 +9,7 @@ use App\Models\Imagen;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class Productos extends Controller
 {
@@ -128,18 +129,28 @@ class Productos extends Controller
         }   
     }   
 
-    public function update_image(string $id)
-    {
-        $item = Imagen::find($id);
-        $titulo = 'Editar Imagen';
-        return view('modules.productos.update-image', compact('item', 'titulo'));
-    }
-
     public function show_image(string $id)
     {
         $item = Imagen::find($id);
         $titulo = 'Ver Imagen';
         return view('modules.productos.show-images', compact('item', 'titulo'));
+    }
+
+    public function update_image(Request $request,  string $id)
+    {
+        try{
+            $item = Imagen::findOrFail($id);
+            Storage::delete('public/' . $item->ruta);
+            $rutaImagen = $request->file('imagen')->store('imagenes', 'public');
+            
+            $nombreImagen = basename($rutaImagen);
+            $item->nombre = $nombreImagen;
+            $item->ruta = $rutaImagen;
+            $item->save();
+            return to_route('producto')->with('success', 'Ha podido ser llevado a cabo con exito!');
+        }catch(Exception $e){
+            return to_route('producto')->with('error', 'No ha podido ser llevado a cabo');
+        }
     }
 
 }

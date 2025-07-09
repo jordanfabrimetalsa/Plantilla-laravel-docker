@@ -16,6 +16,13 @@
                             <br>
                             <p>Administrar los productos de nuestro sistema.</p>
                             <hr>
+                            <div class="row mb-2">
+                                <div class="col text-end">
+                                    <a href="{{ route('productos_reporte.falta_stock') }}" class="btn btn-primary btn-sm">
+                                       <i class="fa-solid fa-filter"></i> Productos con cantidad 1 o 0
+                                    </a>
+                                </div>
+                            </div>
 
                             <table id="productoTable" class="table table-responsive datatable table-bordered table-striped">
                                 <thead class="table-dark">
@@ -23,7 +30,6 @@
                                         <th>Categoria</th>
                                         <th>Proveedor</th>
                                         <th>Nombre</th>
-                                        <th>Imagen</th>
                                         <th>Descripcion</th>
                                         <th>Cantidad</th>
                                         <th>Venta</th>
@@ -44,7 +50,6 @@
                                                 @endif
                                             @endforeach
                                             <td>{{ $item->nombre }}</td>
-                                            <td>{{ $item->imagen }}</td>
                                             <td>{{ $item->descripcion }}</td>
                                             <td>{{ $item->cantidad }}</td>
                                             <td>{{ $item->precio_compra }}</td>

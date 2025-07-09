@@ -22,7 +22,9 @@ Route::middleware('auth')->group(function(){
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::prefix('ventas')->middleware('auth')->group(function(){
-        Route::get('/nueva-venta', [Ventas::class, 'index'])->name('nueva-venta');
+        Route::get('/', [Ventas::class, 'index'])->name('ventas');
+        Route::get('/agregar-carrito/{id}', [Ventas::class, 'agregar_carrito'])->name('ventas.agregar-carrito');
+        Route::get('/borrar-carrito', [Ventas::class, 'borrar_carrito'])->name('ventas.borrar-carrito');
     });
 
     Route::prefix('detalle')->middleware('auth')->group(function(){
@@ -46,15 +48,17 @@ Route::middleware('auth')->group(function(){
         Route::get('/show/{id}', [Productos::class, 'show'])->name('producto.show');
         Route::get('/edit/{id}', [Productos::class, 'edit'])->name('producto.edit');
         Route::put('/update/{id}', [Productos::class, 'update'])->name('producto.update');
+        
         Route::delete('/destroy/{id}', [Productos::class, 'destroy'])->name('producto.destroy');
         Route::get('/cambiar-estado/{id}/{estado}', [Productos::class, 'estado'])->name('producto.estado');
-        Route::get('/update-image/{id}', [Productos::class, 'update_image'])->name('producto.update-image');
+        
+        Route::post('/update-image/{id}', [Productos::class, 'update_image'])->name('producto.update-image');
         Route::get('/show-image/{id}', [Productos::class, 'show_image'])->name('producto.show-image');
     });
 
     Route::prefix('productos_reporte')->middleware('auth')->group(function(){
         Route::get('/', [ReportesProductos::class, 'index'])->name('productos_reporte');
-        Route::get('/pdf', [ReportesProductos::class, 'pdf'])->name('productos_reporte.pdf');
+        Route::get('/falta-stock', [ReportesProductos::class, 'falta_stock'])->name('productos_reporte.falta_stock');
     });
 
     Route::prefix('proveedor')->middleware('auth')->group(function(){
