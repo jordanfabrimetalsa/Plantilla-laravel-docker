@@ -2,155 +2,179 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Producto;
 use App\Models\Categoria;
-use App\Models\Proveedor;
 use App\Models\Imagen;
-use Exception;
+use App\Models\Producto;
+use App\Models\Proveedor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class Productos extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        $titulo = 'Productos';
-        $items = Producto::all();
-        $categorias = Categoria::all();
-        $proveedores = Proveedor::all();
-        $imagenes = Imagen::all();
-        return view('modules.productos.index', compact('titulo', 'items', 'categorias', 'proveedores', 'imagenes'));
+        $titulo = "Productos";
+        $items = Producto::select(
+            'productos.*',
+            'categorias.nombre as nombre_categoria',
+            'proveedores.nombre as nombre_proveedor',
+            'imagenes.ruta as imagen_producto',
+            'imagenes.id as imagen_id' 
+        )
+        ->join('categorias', 'productos.categoria_id', '=' , 'categorias.id')
+        ->join('proveedores', 'productos.proveedor_id', '=' , 'proveedores.id')
+        ->leftJoin('imagenes', 'productos.id', '=', 'imagenes.producto_id')
+        ->get();
+
+        return view('modules.productos.index', compact('titulo', 'items'));
     }
 
+    /**
+     * Show the form for creating a new resource.
+     */
     public function create()
     {
-        $titulo = 'Agregar Producto';
+        $titulo = "Crear producto";
         $categorias = Categoria::all();
-        $proveedor = Proveedor::all();
-        return view('modules.productos.create', compact('titulo', 'categorias', 'proveedor'));
+        $proveedores = Proveedor::all();
+        return view('modules.productos.create', compact('titulo', 'categorias', 'proveedores'));
     }
 
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
     {
-        try{
+        try {
             $item = new Producto();
             $item->user_id = Auth::user()->id;
             $item->categoria_id = $request->categoria_id;
             $item->proveedor_id = $request->proveedor_id;
+            $item->codigo = $request->codigo;
             $item->nombre = $request->nombre;
             $item->descripcion = $request->descripcion;
             $item->save();
             $id_producto = $item->id;
 
-            if($id_producto > 0){
+            if($id_producto > 0) {
                 if($this->subir_imagen($request, $id_producto)){
-                    return to_route('producto')->with('success', 'Ha sido creado con exito.');
-                }else{
-                    return to_route('producto')->with('error', 'No ha subido la imagen.');
+                    return to_route('productos')->with('success', 'Producto creado exitosamente!!');
+                } else {
+                    return to_route('productos')->with('error', 'No se subio la imagen!!');
                 }
             }
-        }catch(Exception $e){
-            return to_route('producto')->with('error', 'No ha podido ser llevado a cabo.');
+        } catch (\Throwable $th) {
+            return to_route('productos')->with('error', 'Fallo al crear producto!' . $th->getMessage());
         }
     }
 
-    public function subir_imagen(Request $request, $id_producto)
-    {
-        try{
-            $rutaImagen = $request->file('imagen')->store('imagenes', 'public');
-            $nombreImagen = basename($rutaImagen);
-            $imagen = new Imagen();
-            $imagen->producto_id = $id_producto;
-            $imagen->nombre = $nombreImagen;
-            $imagen->ruta = $rutaImagen;
-            $imagen->save();
+    public function subir_imagen($request, $id_producto) {
+        $rutaImagen = $request->file('imagen')->store('imagenes', 'public');
+        $nombreImagen = basename($rutaImagen);
 
-            return true;
-        }catch(Exception $e){
-            return false;
-        }
+        $item = new Imagen();
+        $item->producto_id = $id_producto;
+        $item->nombre = $nombreImagen;
+        $item->ruta = $rutaImagen;
+        return $item->save();
     }
-
+    /**
+     * Display the specified resource.
+     */
     public function show(string $id)
     {
-        $titulo = 'Eliminar Producto';
-        $item = Producto::find($id);
-        $categorias = Categoria::all();
-        return view('modules.productos.show', compact('item', 'titulo', 'categorias'));
+        $titulo = 'Eliminar producto';
+        $items = Producto::select(
+            'productos.*',
+            'categorias.nombre as nombre_categoria',
+            'proveedores.nombre as nombre_proveedor'
+        )
+        ->join('categorias', 'productos.categoria_id', '=' , 'categorias.id')
+        ->join('proveedores', 'productos.proveedor_id', '=' , 'proveedores.id')
+        ->where('productos.id', $id)
+        ->first();
+        return view('modules.productos.show', compact('titulo', 'items'));
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     */
     public function edit(string $id)
     {
-        $item = Producto::with('categoria')->find($id);
-        $titulo = 'Editar Producto';
+        $titulo = 'Editar producto';
         $categorias = Categoria::all();
-        $proveedor = Proveedor::all();
-        return view('modules.productos.edit', compact('item', 'titulo', 'categorias', 'proveedor'));
+        $proveedores = Proveedor::all();
+        $item = Producto::find($id);
+        return view('modules.productos.edit', compact('titulo', 'item', 'categorias', 'proveedores'));
     }
 
+    /**
+     * Update the specified resource in storage.
+     */
     public function update(Request $request, string $id)
     {
-        try{
+        try {
             $item = Producto::find($id);
+            $item->categoria_id = $request->categoria_id;
+            $item->proveedor_id = $request->proveedor_id;
+            $item->codigo = $request->codigo;
             $item->nombre = $request->nombre;
             $item->descripcion = $request->descripcion;
             $item->precio_venta = $request->precio_venta;
-            $item->categoria_id = $request->categoria_id;
-            $item->proveedor_id = $request->proveedor_id;
-            $item->update();
-            return to_route('producto')->with('success', 'Ha podido ser llevado a cabo con exito!');
-        }catch(Exception $e){
-            return to_route('producto')->with('error', 'No ha podido ser llevado a cabo');
+            $item->save();
+            return to_route('productos')->with('success', 'Producto actualizado exitosamente!!');
+        } catch (\Throwable $th) {
+            return to_route('productos')->with('error', 'Fallo al actualizar producto!' . $th->getMessage());
         }
-
     }
 
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy(string $id)
     {
-        try{
+        try {
             $item = Producto::find($id);
             $item->delete();
-            return to_route('producto')->with('success', 'Se ha eliminado exitosamente.');
-        }catch(Exception $e){
-            return to_route('error')->with('error', 'No se ha podido eliminar correctamente');
+            return to_route('productos')->with('success', 'Producto eliminado exitosamente!!');
+        } catch (\Throwable $th) {
+            return to_route('productos')->with('error', 'Fallo al eliminar producto!' . $th->getMessage());
         }
     }
 
-    public function estado(string $id, string $estado)
-    {
-        try{
-            $item = Producto::findOrFail($id);
-            $item->activo = $estado;
-            $item->save();
-            return to_route('producto')->with('success', 'Producto actualizado correctamente');
-        }catch(Exception $e){
-            return back()->with('error', $e->getMessage());
-        }   
-    }   
-
-    public function show_image(string $id)
-    {
-        $item = Imagen::find($id);
-        $titulo = 'Ver Imagen';
-        return view('modules.productos.show-images', compact('item', 'titulo'));
+    public function estado($id, $estado) {
+        $item = Producto::find($id);
+        $item->activo = $estado;
+        return $item->save();
     }
 
-    public function update_image(Request $request,  string $id)
-    {
-        try{
-            $item = Imagen::findOrFail($id);
-            Storage::delete('public/' . $item->ruta);
+    public function show_image($id) {
+        $titulo = 'Editar imagen';
+        $item = Imagen::find($id);
+        return view('modules.productos.show-image', compact('titulo', 'item'));
+    }
+
+    public function update_image(Request $request, $id){
+        try {
+            $item = Imagen::find($id);
+
+            if($item->ruta && Storage::disk('public')->exists($item->ruta)){
+                Storage::disk('public')->delete($item->ruta);
+            }
+            
             $rutaImagen = $request->file('imagen')->store('imagenes', 'public');
             
             $nombreImagen = basename($rutaImagen);
-            $item->nombre = $nombreImagen;
             $item->ruta = $rutaImagen;
+            $item->nombre = $nombreImagen;
             $item->save();
-            return to_route('producto')->with('success', 'Ha podido ser llevado a cabo con exito!');
-        }catch(Exception $e){
-            return to_route('producto')->with('error', 'No ha podido ser llevado a cabo');
+            return to_route('productos')->with('success', 'Imagen Actualizada exitosamente!!');
+        } catch (\Throwable $th) {
+            return to_route('productos')->with('error', 'No se pudo actualizar la imagen!!');
         }
     }
-
 }

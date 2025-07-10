@@ -1,7 +1,7 @@
 
-
+  
   <!-- Modal -->
-  <form id="frmPassword">
+  <form id="frmPassword" onsubmit="return cambio_password()">
     <div class="modal fade" id="cambiar_password" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -16,9 +16,10 @@
             </div>
             <div class="modal-footer">
               <span class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</span>
-              <button type="button" class="btn btn-warning" onclick="return cambio_password()">Actualizar password</button>
+              <button class="btn btn-warning">Actualizar password</button>
             </div>
           </div>
         </div>
       </div>
   </form>
+  
