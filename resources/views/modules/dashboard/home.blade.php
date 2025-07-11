@@ -48,6 +48,34 @@
               @endforelse
             </ul>
 
+            <div class="chat">
+              <div class="top">
+                <img src="https://assets.edlin.app/images/rossedlin/03/rossedlin-03-100.jpg" alt="Avatar">
+                <div>
+                  <p>Ross Edlin</p>
+                  <small>Online</small>
+                </div>
+              </div>
+              <!-- End Header -->
+
+              <!-- Chat -->
+              <div class="messages">
+                <div class="left message">
+                  <img src="https://assets.edlin.app/images/rossedlin/03/rossedlin-03-100.jpg" alt="Avatar">
+                  <p>Start chatting with Chat GPT AI below!!</p>
+                </div>
+              </div>
+              <!-- End Chat -->
+
+              <!-- Footer -->
+              <div class="bottom">
+                <form>
+                  <input type="text" id="message" name="message" placeholder="Enter message..." autocomplete="off">
+                  <button type="submit"></button>
+                </form>
+              </div>
+              <!-- End Footer -->
+            </div>
           </div>
         </div>
       </div>
@@ -56,4 +84,134 @@
 </main>
 @endsection
 
+@push('styles')
+  <style>
+    .chat {
+      display: flex;
+      flex-direction: column;
+      height: 500px;
+      background-color: #F5F5F5;
+      border-radius: 10px;
+      padding: 20px;
+    }
 
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .messages {
+      display: flex;
+      flex-direction: column;
+      overflow-y: scroll;
+      flex: 1;
+    }
+
+    .message {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .left {
+      justify-content: flex-start;
+    }
+
+    .right {
+      justify-content: flex-end;
+    }
+
+    .left img {
+      margin-right: 10px;
+    }
+
+    .right img {
+      margin-left: 10px;
+    }
+
+    .bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .bottom form {
+      flex: 1;
+    }
+
+    .bottom input {
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      padding: 10px;
+    }
+
+    .bottom button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .bottom button:hover {
+      background-color: #45a049;
+    }
+  </style>
+@endpush
+
+@push('scripts')
+  <script>
+    //Broadcast messages
+    $("form").submit(function (event) {
+      event.preventDefault();
+
+      //Stop empty messages
+      if ($("form #message").val().trim() === '') {
+        return;
+      }
+
+      //Disable form
+      $("form #message").prop('disabled', true);
+      $("form button").prop('disabled', true);
+
+      $.ajax({
+        url: "/chat",
+        method: 'POST',
+        headers: {
+          'X-CSRF-TOKEN': "{{csrf_token()}}"
+        },
+        data: {
+          "model": "gpt-3.5-turbo",
+          "content": $("form #message").val()
+        }
+      }).done(function (res) {
+        //Append message to chat
+        $(".messages").append('<div class="right message">' +
+          '<p>' + $("form #message").val() + '</p>' +
+          '<img src="https://assets.edlin.app/images/rossedlin/03/rossedlin-03-100.jpg" alt="Avatar">' +
+          '</div><div class="left message">' +
+          '<img src="https://assets.edlin.app/images/rossedlin/03/rossedlin-03-100.jpg" alt="Avatar">' +
+          '<p>' + res + '</p>' +
+          '</div>');
+
+        //Cleanup
+        $("form #message").val('');
+        $(document).scrollTop($(document).height());
+
+        //Enable form
+        $("form #message").prop('disabled', false);
+        $("form button").prop('disabled', false);
+      });
+    });
+
+    //Focus on message input when document is ready
+    $(document).ready(function () {
+      $("form #message").focus();
+    });
+
+  </script>
+@endpush

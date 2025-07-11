@@ -39,3 +39,4 @@ php artisan r:l
 
 php artisan make:controller Api\PostController --api
 
+composer require livewire/livewire
