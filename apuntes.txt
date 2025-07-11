@@ -29,4 +29,13 @@ php artisan storage:link -> permite manejar imagenes
 
 composer require barryvdh/laravel-dompdf
 
+composer create-project laravel/laravel:11.* nombre_proyecto
+
+php artisan install:api
+
+php artisan make:controller 
+
+php artisan r:l
+
+php artisan make:controller Api\PostController --api
 
