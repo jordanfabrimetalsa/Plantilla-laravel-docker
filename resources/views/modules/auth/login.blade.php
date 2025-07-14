@@ -1,60 +1,68 @@
 @extends('layouts.login')
+
 @section('titulo', $titulo )
 @section('contenido')
 <main>
     <div class="container">
-      <section class="py-4 section register min-vh-100 d-flex flex-column align-items-center justify-content-center">
+
+      <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
         <div class="container">
           <div class="row justify-content-center">
             <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
 
-              <div class="py-4 d-flex justify-content-center">
-                <a href="#" class="w-auto logo d-flex align-items-center">
-                  <img src="assets/img/logo.png" alt="">
-                  <span class="d-none d-lg-block">Ventas y Almacén</span>
+              <div class="d-flex justify-content-center py-4">
+                <a href="#" class="logo d-flex align-items-center w-auto">
+                  
                 </a>
-              </div>
+              </div><!-- End Logo -->
 
-              <div class="mb-3 card">
+              <div class="card mb-3">
+
                 <div class="card-body">
+                  <img src="{{ asset('img/login.jpg') }}" alt="" class="img-fluid">
                   <div class="pt-4 pb-2">
-                    <h5 class="pb-0 text-center card-title fs-4">Login de Usuarios</h5>
-                    <p class="text-center small">Ingresa tu email y password para acceder.</p>
+                    <h5 class="card-title text-center pb-0 fs-4">Ingresa tu email y password para acceder</h5>
+                    
                   </div>
-
-                  <form class="row g-3 needs-validation" method="POST" action="{{ route('logear') }}" novalidate>
+                  <form class="row g-3 needs-validation" novalidate method="POST" action="{{ route('logear') }}">
                     @csrf
-                    @method('POST')
                     <div class="col-12">
                       <label for="email" class="form-label">Email</label>
                       <div class="input-group has-validation">
-                        <span class="input-group-text" id="inputGroupPrepend">@</span>
-                        <input type="email" name="email" class="form-control" id="email" required>
-                        <div class="invalid-feedback">Ingresa su Email.</div>
+                        <input type="text" name="email" class="form-control" id="email" required>
+                        <div class="invalid-feedback">Escribe tu correo</div>
                       </div>
                     </div>
-
                     <div class="col-12">
                       <label for="password" class="form-label">Password</label>
                       <input type="password" name="password" class="form-control" id="password" required>
-                      <div class="invalid-feedback">Ingrese su Contraseña!</div>
+                      <div class="invalid-feedback">Escribe tu contraseña!</div>
                     </div>
-
                     <div class="col-12">
                       <button class="btn btn-primary w-100" type="submit">Login</button>
                     </div>
                   </form>
-                  <!-- validacion que viene de logear -->
-                  @if ($errors->any())
-                    <p>
+                  <!--Validacion que viene de logear-->
+                  <div>
+                    @if ($errors->any())
+                      <p>
                         <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
+                          @foreach ($errors->all() as $error)
+                          <li>{{ $error }}</li>
+                          @endforeach
                         </ul>
-                    </p>
-                  @endif
+                      </p>
+                    @endif
+                  </div>
                 </div>
+              </div>
+
+              <div class="credits">
+                <!-- All the links in the footer should remain intact. -->
+                <!-- You can delete the links only if you purchased the pro version. -->
+                <!-- Licensing information: https://bootstrapmade.com/license/ -->
+                <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+                Desarrollo por <a target="_blank" href="https://facultadautodidacta/">Facultad Autodidacta</a>
               </div>
 
             </div>
@@ -64,6 +72,5 @@
       </section>
 
     </div>
-  </main><!-- End #main -->
-
+  </main>
 @endsection

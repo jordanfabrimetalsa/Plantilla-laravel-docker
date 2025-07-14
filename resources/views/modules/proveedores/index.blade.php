@@ -1,53 +1,69 @@
 @extends('layouts.main')
 
-@section('titulo', 'Proveedores')
+@section('titulo', $titulo)
 
-@section('content')
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+@section('contenido')
 <main id="main" class="main">
-    <div class="pagetitle">
-      <h1>Proveedores</h1>
-    </div>
+  <div class="pagetitle">
+    <h1>Proveedores</h1>
 
-    <section class="section dashboard">
-      <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-              <div class="card-body">
-                <div class="card-title">
-                  Proveedores
-                </div>
-                <p>Administrar los proveedores de nuestro sistema.</p>
-                <a href="{{ route('proveedor.create') }}" class="btn btn-primary mb-3">
-                    <i class="fa-solid fa-plus me-1"></i> Nuevo Proveedor
-                </a>
-
-                <div class="table-responsive">
-                    <table class="table table-bordered datatable" id="proveedoresTable">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Telefono</th>
-                                <th>Direccion</th>
-                                <th>Correo</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbody-proveedores">
-
-                        </tbody>
-                    </table>
-                </div>
-              </div>
-            </div>
+  </div><!-- End Page Title -->
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Administrar Proveedores</h5>
+            <p>
+              Admnistrar los proveedores de nuestros productos.
+            </p>
+            <!-- Table with stripped rows -->
+            <a href="{{ route('proveedores.create') }}" class="btn btn-primary">
+              <i class="fa-solid fa-circle-plus"></i> Agregar nuevo proveedor
+            </a>
+            <hr>
+            <table class="table datatable">
+              <thead>
+                <tr>
+                  <th class="text-center">Nombre</th>
+                  <th class="text-center">Telefono</th>
+                  <th class="text-center">Email</th>
+                  <th class="text-center">CP</th>
+                  <th class="text-center">Sitio web</th>
+                  <th class="text-center">Nota</th>
+                  <th class="text-center">
+                    Acciones
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                  @foreach ($items as $item)
+                  <tr class="text-center">
+                    <td>{{ $item->nombre }}</td>
+                    <td>{{ $item->telefono }}</td>
+                    <td>{{ $item->email }}</td>
+                    <td>{{ $item->cp }}</td>
+                    <td>{{ $item->sitio_web }}</td>
+                    <td>{{ $item->notas }}</td>
+                    <td>
+                      <a href="{{ route("proveedores.edit", $item->id) }}" class="btn btn-warning">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                      </a>
+                      <a href="{{ route("proveedores.show", $item->id) }}" class="btn btn-danger">
+                        <i class="fa-solid fa-trash-can"></i>
+                      </a>
+                    </td>
+                  </tr>
+                  @endforeach
+              </tbody>
+            </table>
+            <!-- End Table with stripped rows -->
+          </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
+
 </main>
 @endsection
-@push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
- <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-@endpush
+

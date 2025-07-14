@@ -15,3 +15,27 @@ docker-compose build
 
 docker-compose exec laravel bash
 docker-compose run --rm laravel bash
+
+php artisan db:wipe -> elimina todas las tablas
+
+php artisan config:clear
+php artisan cache:clear
+php artisan view:clear
+php artisan route:clear
+
+php artisan make:model -mcr
+
+php artisan storage:link -> permite manejar imagenes
+
+composer require barryvdh/laravel-dompdf
+
+composer create-project laravel/laravel:11.* nombre_proyecto
+
+php artisan install:api
+
+php artisan make:controller 
+
+php artisan r:l
+
+php artisan make:controller Api\PostController --api
+

@@ -2,50 +2,74 @@
 
 @section('titulo', $titulo)
 
-@section('content')
-    <main id="main" class="main">
-        <div class="pagetitle">
-            <h1>Eliminar Producto</h1>
+@section('contenido')
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Eliminar Producto</h1>
+    
+  </div><!-- End Page Title -->
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Eliminar producto del stock</h5>
+            <p>
+              Una vez que el producto sea eliminado, no podra ser recuperado!!!!
+            </p>
+            
+            <!-- Table with stripped rows -->
+            
+            <table class="table">
+              <thead>
+                <tr>
+                  <th class="text-center">Categoria</th>
+                  <th class="text-center">Proveedor</th>
+                  <th class="text-center">Nombre</th>
+                  <th class="text-center">Imagen</th>
+                  <th class="text-center">Descripcion</th>
+                  <th class="text-center">Cantidad</th>
+                  <th class="text-center">Venta</th>
+                  <th class="text-center">Compra</th>
+                  <th class="text-center">Activo</th>
+                  
+                </tr>
+              </thead>
+              <tbody>
+                 
+                  <tr class="text-center">
+                    <td>{{ $items->nombre_categoria }} </td>
+                    <td>{{ $items->nombre_proveedor }}</td>
+                    <td>{{ $items->nombre }}</td>
+                    <td></td>
+                    <td>{{ $items->descripcion }}</td>
+                    <td>{{ $items->cantidad }}</td>
+                    <td>{{ $items->precio_compra }}</td>
+                    <td>{{ $items->precio_venta }}</td>
+                    <td>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="{{ $items->id }}" 
+                            {{ $items->activo ? 'checked' : '' }}  >
+                        </div>
+                    </td>
+                  </tr>
+                 
+              </tbody>
+            </table>
+            <!-- End Table with stripped rows -->
+            <hr>
+            <form action="{{ route('productos.destroy', $items->id) }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <button class="btn btn-danger">Eliminar producto</button>
+                <a href="{{ route('productos') }}" class="btn btn-info">Cancelar</a>
+            </form>
+          </div>
         </div>
+      </div>
+    </div>
+  </section>
 
-        <section class="section">
-            <div class="row">
-                <div class="col-lg-12">
-
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">¿Estas seguro de eliminar esta producto?</h5>
-
-                            <form action="{{ route('producto.destroy', $item->id) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <label for="">Nombre de la Producto</label>
-                                <input type="text" class="form-control" readonly name="nombre" id="nombre" value="{{ $item->nombre }}">
-
-                                <label for="">Descripción</label>
-                                <input type="text" class="form-control" readonly name="descripcion" id="descripcion" value="{{ $item->descripcion }}">
-
-                                <label for="">Precio</label>
-                                <input type="number" class="form-control" readonly name="precio" id="precio" value="{{ $item->precio }}">
-
-                                <label for="">Cantidad</label>
-                                <input type="number" class="form-control" readonly name="cantidad" id="cantidad" value="{{ $item->cantidad }}">
-
-                                <label for="">Categoria</label>
-                                <select name="categoria_id" id="categoria_id" class="form-control" readonly>
-                                    <option value="">Seleccionar Categoria</option>
-                                    @foreach ($categorias as $categoria)
-                                        <option value="{{ $categoria->id }}" {{ $categoria->id == $item->categoria_id ? 'selected' : '' }}>{{ $categoria->nombre }}</option>
-                                    @endforeach
-                                </select>
-                                <button class="btn btn-danger mt-3">Eliminar</button>
-                                <a href="{{ route('producto') }}" class="btn btn-danger mt-3">Cancelar</a>
-                            </form>
-                        </div>          
-                    </div>
-
-                </div>
-            </div>
-        </section>
-    </main>
+</main>
 @endsection
+
