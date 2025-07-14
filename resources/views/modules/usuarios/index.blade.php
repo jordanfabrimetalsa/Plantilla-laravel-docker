@@ -21,14 +21,7 @@
                 <a href="{{ route('usuario.create') }}" class="btn btn-primary mb-3">
                     <i class="fa-solid fa-plus me-1"></i> Nuevo Usuario
                 </a>
-
-
-                @if (session('success'))
-                    <div class="alert alert-success mb-3 mt-3">
-                        {{ session('success') }}
-                    </div>
-                @endif
-
+                
                 <div class="table-responsive">
                     <table class="table table-bordered datatable" id="usuariosTable">
                         <thead>
@@ -98,7 +91,12 @@
                 let password = $('#password').val();
 
                 if (!password) {
-                    alert('Por favor ingrese una contraseña');
+                    swal.fire({
+                        icon: 'error',
+                        title: 'Por favor ingrese una contraseña',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
                     return;
                 }
 
@@ -107,7 +105,12 @@
                   url: "usuario/cambiar-password/" + id + "/" + password,
                   success: function(response) {
                     if(response == 1){
-                      alert('Contraseña cambiada correctamente');
+                      swal.fire({
+                        icon: 'success',
+                        title: 'Contraseña cambiada correctamente',
+                        showConfirmButton: false,
+                        timer: 1500
+                      });
                       // Cerrar el modal
                       $('#cambiar_password').modal('hide');
                         // Limpiar el formulario
@@ -120,7 +123,12 @@
                   },
                   error: function(xhr) {
                     console.error('Error:', xhr.responseText);
-                    alert('Error al cambiar la contraseña');
+                    swal.fire({
+                        icon: 'error',
+                        title: 'Error al cambiar la contraseña',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
                   }
                 })
 
@@ -146,7 +154,12 @@
                 url: "usuario/cambiar-estado/" + usuario_id + "/" + estado,
                 success: function(response) {
                     if (response == 1) {
-                        alert('Estado cambiado correctamente');
+                        swal.fire({
+                            icon: 'success',
+                            title: 'Estado cambiado correctamente',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
                         recargar_tbody();
                     }
                 },

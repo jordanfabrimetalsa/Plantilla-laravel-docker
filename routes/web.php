@@ -7,6 +7,7 @@ use App\Http\Controllers\DetalleVentas;
 use App\Http\Controllers\Productos;
 use App\Http\Controllers\Usuarios;
 use App\Http\Controllers\Ventas;
+use App\Http\Controllers\ProveedorController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/crear-admin', [AuthController::class, 'crearAdmin'])->name('crear-admin');
@@ -70,6 +71,16 @@ Route::middleware('auth')->group(function(){
         Route::get('/tbody', [Usuarios::class, 'tbody'])->name('usuario.tbody');
         Route::get('/cambiar-estado/{id}/{estado}', [Usuarios::class, 'estado'])->name('usuario.estado');
         Route::get('/cambiar-password/{id}/{password}', [Usuarios::class, 'cambio_password'])->name('usuario.password');
+    });
+
+    Route::prefix('proveedor')->middleware('auth')->group(function(){
+        Route::get('/', [ProveedorController::class, 'index'])->name('proveedor');
+        Route::get('/create', [ProveedorController::class, 'create'])->name('proveedor.create');
+        Route::post('/store', [ProveedorController::class, 'store'])->name('proveedor.store');
+        Route::get('/show/{id}', [ProveedorController::class, 'show'])->name('proveedor.show');
+        Route::get('/edit/{id}', [ProveedorController::class, 'edit'])->name('proveedor.edit');
+        Route::put('/update/{id}', [ProveedorController::class, 'update'])->name('proveedor.update');
+        Route::delete('/destroy/{id}', [ProveedorController::class, 'destroy'])->name('proveedor.destroy');
     });
 });
 

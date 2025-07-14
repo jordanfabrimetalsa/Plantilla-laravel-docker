@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-
+use Illuminate\Support\Facades\Hash;
+use Exception;
 class Usuarios extends Controller
 {
     public function index()
@@ -21,21 +22,28 @@ class Usuarios extends Controller
     }
     public function store(Request $request)
     {
-        $usuario = New User();
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required',
-            'password' => 'required',
-            'activo' => 'required',
-            'rol' => 'required',
-        ]);
+        try{
+            $request->validate([
+                'name' => 'required',
+                'email' => 'required',
+                'password' => 'required',
+                'activo' => 'required',
+                'rol' => 'required',
+            ]);
 
-        $request->password = bcrypt($request->password);
-        $request->rol = $request->rol == 'admin' ? 'admin' : 'user';
-        $request->activo = $request->activo == '1' ? true : false;
-        $request->user_id = Auth::user()->id;
-        $request->save();
-        return redirect()->route('usuario');
+            $usuario = New User();
+            $usuario->name = $request->name;
+            $usuario->email = $request->email;
+            $usuario->password = Hash::make($request->password);
+            $usuario->rol = $request->rol == 'admin' ? 'admin' : 'user';
+            $usuario->activo = $request->activo == '1' ? true : false;
+            $usuario->user_id = Auth::user()->id;
+            $usuario->save();
+            return redirect()->route('usuario')->with('success', 'Se ha creado exitosamente.');
+            
+        }catch(Exception $e){
+            return redirect()->route('usuario')->with('error', 'Error al crear el usuario.');
+        }
     }
     public function show(string $id)
     {
@@ -53,14 +61,42 @@ class Usuarios extends Controller
 
     public function update(Request $request, string $id)
     {
-        //
+        $item = User::find($id);
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'activo' => 'required',
+            'rol' => 'required',
+        ]);
+        $item->name = $request->name;
+        $item->email = $request->email;
+        $item->activo = $request->activo == '1' ? true : false;
+        $item->rol = $request->rol == 'admin' ? 'admin' : 'cajero';
+        $item->update();
+        return redirect()->route('usuario');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        $item = User::find($id);
+        $item->delete();
+        return redirect()->route('usuario');
+    }
+
+    public function tbody(){
+        $item = User::all();
+        return view('modules.usuarios.tbody', compact('item'));
+    }
+
+    public function estado($id, $estado){
+        $item = User::find($id);
+        $item->activo = $estado;
+        return $item->save();
+    }
+
+    public function cambio_password($id, $password){
+        $item = User::findOrFail($id);
+        $item->password = Hash::make($password);
+        return $item->save();
     }
 }

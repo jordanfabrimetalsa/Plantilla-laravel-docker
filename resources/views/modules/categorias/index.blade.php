@@ -17,17 +17,6 @@
                             <h5 class="card-title">Administrar las Categorias</h5>
                             <p>Administrar las categorias de nuestro sistema.</p>
 
-                            @if (session('success'))
-                                <div class="alert alert-success">
-                                    {{ session('success') }}
-                                </div>
-                            @endif
-
-                            @if (session('error'))
-                                <div class="alert alert-danger">
-                                    {{ session('error') }}
-                                </div>
-                            @endif
 
                             <!-- Table with stripped rows -->
                             <a href="{{ route('categoria.create') }}" class="btn btn-primary"><i
